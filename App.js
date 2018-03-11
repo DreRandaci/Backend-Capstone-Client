@@ -30,20 +30,24 @@ export default class App extends Component {
             flashMode={RNCamera.Constants.FlashMode.on}
             permissionDialogTitle={'Permission to use camera'}
             permissionDialogMessage={'We need your permission to use your camera phone'}
-        />
-        <View><Text style={styles.response}>{this.state.watson}</Text></View>
+          />
+
+        <View>
+          <Text style={styles.response}>{this.state.watson}</Text>
+          </View>
+
         <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
         <TouchableOpacity
             onPress={this.takePicture.bind(this)}
             style = {styles.capture}
         >
-            <Text style={{fontSize: 14}}> SNAP </Text>
+            <Text style={{fontSize: 14}}> WATSONIZE </Text>
         </TouchableOpacity>
         </View>
       </View>
     );
   }
-
+ 
   takePicture = async function() {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
@@ -59,7 +63,7 @@ export default class App extends Component {
         name: 'testPhotoName'
       });
       
-      fetch(`https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify?api_key=&version=2016-05-20`, {
+      fetch(`https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify?api_key=57a2800e51432df69ca26797c1853f320591b787&version=2016-05-20`, {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -73,6 +77,7 @@ export default class App extends Component {
       console.log(pic);
     }
   };
+  
 }
 
 const styles = StyleSheet.create({
