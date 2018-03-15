@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Image, StyleSheet } from 'react-native'; 
+import { Image, StyleSheet, Dimensions } from 'react-native'; 
 
 
 export default class UserImage extends Component {

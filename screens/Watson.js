@@ -27,7 +27,7 @@ export default class Watson extends Component {
                         onPress={this.takePicture.bind(this)}
                         style = {styles.capture}
                     >
-                        <Text style={{fontSize: 14}}> WATSONIZE </Text>
+                        <Text style={{fontSize: 15}}> Watson </Text>
                     </TouchableOpacity>
                 </View>
             </View>
