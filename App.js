@@ -8,76 +8,36 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { RNCamera } from 'react-native-camera';
+import { StackNavigator } from 'react-navigation';
+import { Tabs } from './config/router';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      watson: []
+      
     };
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <RNCamera
-            ref={ref => {
-              this.camera = ref;
-            }}
-            style = {styles.preview}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.on}
-            permissionDialogTitle={'Permission to use camera'}
-            permissionDialogMessage={'We need your permission to use your camera phone'}
-          />
+  // componentWillMount() {
 
-        <View>
-          <Text style={styles.response}>{this.state.watson}</Text>
-          </View>
+  //   fetch('http://127.0.0.1:5000/api/user', {
+  //   // fetch('http://localhost:5000/api/user', {
+  //     method: 'GET',
+  //     body: null
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => console.log(data));
+  // }
 
-        <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
-        <TouchableOpacity
-            onPress={this.takePicture.bind(this)}
-            style = {styles.capture}
-        >
-            <Text style={{fontSize: 14}}> WATSONIZE </Text>
-        </TouchableOpacity>
+
+    render() {
+      return (
+        <View style={styles.container}>
+          <Tabs />        
         </View>
-      </View>
-    );
-  }
- 
-  takePicture = async function() {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const pic = await this.camera.takePictureAsync(options);
-      
-      this.setState({watson: pic.uri});
-
-      const data = new FormData();
-      data.append('name', 'testName'); 
-      data.append('photo', {
-        uri: pic.uri,
-        type: `image/${pic.type}`, 
-        name: 'testPhotoName'
-      });
-      
-      fetch(`https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify?api_key=57a2800e51432df69ca26797c1853f320591b787&version=2016-05-20`, {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'multipart/form-data;'
-        },
-        body: data
-      }).then(res => {
-        console.log(res.json())
-      });
-
-      console.log(pic);
+      );
     }
-  };
-  
 }
 
 const styles = StyleSheet.create({
@@ -85,28 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'black'
-  },
-  preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    padding: 15,
-    paddingHorizontal: 20,
-    alignSelf: 'center',
-    margin: 20
-  },
-  response: {
-    flex: 0,
-    flexDirection: 'column',
-    backgroundColor: '#fff',
-    fontSize: 20,
-    alignSelf: 'center',
-  }
+  }  
 });
 
 AppRegistry.registerComponent('Watson', () => App);
