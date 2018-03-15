@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import Watson from '../screens/Watson';
-import Image from '../screens/Image';
+import Images from '../screens/Images';
 import { Icon, Badge } from 'react-native-elements';
 
 export const Tabs = TabNavigator({
@@ -13,7 +13,7 @@ export const Tabs = TabNavigator({
         },
     },
     Image: {
-        screen: Image,
+        screen: Images,
         navigationOptions: {
             tabBarLabel: 'Images',
             tabBarIcon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
