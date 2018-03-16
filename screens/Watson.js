@@ -10,7 +10,6 @@ import {
 import React, { Component } from 'react';
 import { RNCamera } from 'react-native-camera';
 import UserImage from '../components/UserImage';
-import PredictionData from '../components/PredictionData';
 import Prediction from '../components/Prediction';
 
 export default class Watson extends Component {    
@@ -82,13 +81,14 @@ export default class Watson extends Component {
     };    
 
 setModalVisible(visible) {
-    this.setState({modalVisible: visible, currentPic: ''});
+    this.predictions = [];
+    this.setState({modalVisible: visible, currentPic: '', predictionData: []});
 };
 
 takePicture = async function(modalOpen) {
     
     if (this.camera) {
-        const options = { quality: 0.5, base64: true };
+        const options = { quality: 0.3, base64: true };
         const pic = await this.camera.takePictureAsync(options);      
         
         this.setState({currentPic: pic.uri});        
@@ -97,7 +97,7 @@ takePicture = async function(modalOpen) {
         data.append('file', {
             uri: pic.uri,
             type: `image/${pic.type}`, 
-            name: `${pic.name}`
+            name: `${pic.uri}`
         });
       
       fetch(`http://watson.drerandaci.com/api/prediction`, {
@@ -110,11 +110,9 @@ takePicture = async function(modalOpen) {
       }).then(res => res.json())
             .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
             .catch(err => console.log("error in watson prediction post:", err));
-      console.log("data:", data);
     }
   };
 };
-
 
 const styles = StyleSheet.create({
     container: {
