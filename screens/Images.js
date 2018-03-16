@@ -18,9 +18,10 @@ export default class Images extends Component {
         };
     };
 
-    // componentDidMount() {
-    //     fetch('images.drerandaci.com').then(res => this.setState({images = res.json()}));
-    // };
+    componentDidMount() {
+        // fetch('watson.drerandaci.com/api/prediction').then(res => this.setState({images = res.json()}));
+        fetch('watson.drerandaci.com/api/prediction').then(res => console.log(res.json()))
+    };
 
     viewImgDetail = (img) => {
         this.props.navigation.navigate('Details', { ...img });

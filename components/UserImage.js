@@ -10,8 +10,8 @@ export default class UserImage extends Component {
     };
     
     render() {
-        return (
-            <Image style={styles.img} source = {{uri: this.props.imageUri}}/>
+        return (            
+            <Image style={styles.img} source={{uri: props.currentPic}}/>
         );
     };
 };
