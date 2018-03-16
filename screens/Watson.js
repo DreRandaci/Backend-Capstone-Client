@@ -8,7 +8,7 @@ import {
     TouchableHighlight } from 'react-native'; 
 import React, { Component } from 'react';
 import { RNCamera } from 'react-native-camera';
-import { UserImage } from '../components/UserImage';
+import UserImage from '../components/UserImage';
 
 export default class Watson extends Component {    
     constructor(props) {
@@ -49,7 +49,7 @@ export default class Watson extends Component {
                         alert('Modal has been closed.');
                     }}>
                     <View style={{marginTop: 22}}>
-                        <UserImage source={{uri:this.state.currentPic}}/>
+                        <UserImage source={this.state.currentPic}/>
                         <View>
                             <TouchableHighlight
                                 onPress={() => {
@@ -70,13 +70,13 @@ setModalVisible(visible) {
 };
 
 takePicture = async function(modalOpen) {
-    this.setState({modalVisible: modalOpen});
-
+    
     if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const pic = await this.camera.takePictureAsync(options);      
-      
-      this.setState({currentPic: pic.uri});
+        const options = { quality: 0.5, base64: true };
+        const pic = await this.camera.takePictureAsync(options);      
+        
+        this.setState({currentPic: pic.uri});
+        this.setState({modalVisible: modalOpen});
       
       const data = new FormData();      
       data.append('file', {

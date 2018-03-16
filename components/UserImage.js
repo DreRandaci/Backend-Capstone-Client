@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Image, StyleSheet, Dimensions } from 'react-native'; 
+import { Image, StyleSheet, Dimensions, View } from 'react-native'; 
 
 
 export default class UserImage extends Component {
@@ -10,8 +10,10 @@ export default class UserImage extends Component {
     };
     
     render() {
-        return (            
-            <Image style={styles.img} source={{uri: props.currentPic}}/>
+        return (
+            <View>            
+                <Image style={styles.img} source={{uri: this.props.source}}/>
+            </View>
         );
     };
 };
