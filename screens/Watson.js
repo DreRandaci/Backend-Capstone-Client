@@ -12,6 +12,7 @@ import { RNCamera } from 'react-native-camera';
 import { Button } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import Prediction from '../components/Prediction';
+import Classify from '../actions/WatsonClassify';
 
 export default class Watson extends Component {    
     constructor(props) {
@@ -112,18 +113,12 @@ takePicture = async function(modalOpen) {
             name: `${pic.uri}`
         });
       
-      fetch(`http://watson.drerandaci.com/api/prediction`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'multipart/form-data;'
-        },
-        body: data
-      }).then(res => res.json())
+        Classify.getClassification(data)
+            .then(res => res.json())
             .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
             .catch(err => console.log("error in watson prediction post:", err));
-    }
-  };
+        }
+    };
 };
 
 const styles = StyleSheet.create({
