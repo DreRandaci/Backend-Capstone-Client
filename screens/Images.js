@@ -1,6 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { 
+    Dimensions,
+    CameraRoll,
     View, 
     StyleSheet,
     ScrollView,
@@ -14,13 +16,21 @@ export default class Images extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            images: []
+            photos: []
         };
     };
 
-    componentDidMount() {
-        // fetch('watson.drerandaci.com/api/prediction').then(res => this.setState({images = res.json()}));
-        fetch('watson.drerandaci.com/api/prediction').then(res => console.log(res.json()))
+    componentDidMount = () => {
+        CameraRoll.getPhotos({
+            first: 20,
+            assetType: 'Photos',
+        })
+        .then(r => {
+            this.setState({ photos: r.edges });
+        })
+        .catch((err) => {
+            //Error Loading Images
+        });
     };
 
     viewImgDetail = (img) => {
@@ -30,10 +40,17 @@ export default class Images extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <Text style={styles.header}>Select an Image to Send to Watson</Text>
                 <ScrollView>
-                    {this.state.images.map((img) => (
-                        <UserImage imageUri={img.uri} />
-                    ))}
+                    {this.state.photos.map((p, i) => {
+                        return (
+                            <Image
+                                key={i}
+                                style={styles.img}
+                                source={{ uri: p.node.image.uri }}
+                            />
+                        );
+                    })}
                 </ScrollView>
             </View>
         );
@@ -42,9 +59,20 @@ export default class Images extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 10,
+        paddingTop: 35,
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    header: {
+        fontSize: 16,
+        paddingBottom: 10,
+    },
+    img: {
+        width: Dimensions.get('window').width,
+        // height: Dimensions.get('window').height
+        height: 300
     }
 });

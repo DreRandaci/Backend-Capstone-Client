@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Image, StyleSheet, Dimensions, View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements'; 
 
 

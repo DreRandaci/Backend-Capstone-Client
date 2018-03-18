@@ -43,7 +43,16 @@ export default class Watson extends Component {
                 permissionDialogTitle={'Permission to use camera'}
                 permissionDialogMessage={'We need your permission to use your camera phone'}
                 />
-                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
+                
+                <View>
+                    {/* <Button 
+                        title='Watson'
+                        backgroundColor='#03A9F4'
+                        buttonStyle={{borderRadius:100}}
+                        onPress={this.takePicture.bind(this, !this.state.modalVisible)}
+                        >
+                    </Button>     */}
+
                     <TouchableOpacity
                         onPress={this.takePicture.bind(this, !this.state.modalVisible)}
                         style = {styles.capture}
@@ -54,7 +63,7 @@ export default class Watson extends Component {
 
                 <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { alert('Modal has been closed.');}}>
 
-                    <View style={{marginTop: 22}}>
+                    <ScrollView style={styles.scrollViewContainer}>
 
                         <UserImage source={this.state.currentPic} predictions={predictions}/>
 
@@ -75,11 +84,7 @@ export default class Watson extends Component {
                             </Button>
                         </View>
 
-                        {/* <ScrollView>
-                            {predictions}   
-                        </ScrollView> */}
-
-                    </View>
+                    </ScrollView>
 
                 </Modal>
 
@@ -153,5 +158,9 @@ const styles = StyleSheet.create({
         marginLeft: 0, 
         marginRight: 0, 
         marginBottom: 0,
+    },
+    scrollViewContainer: {
+        marginTop: 25,
+        marginBottom: 25
     }
 });
