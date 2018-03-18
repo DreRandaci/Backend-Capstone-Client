@@ -27,11 +27,8 @@ export default class Watson extends Component {
         let predictions = this.state.predictionData.map((val, key) =>
             <Prediction
                 key={key} 
-                //id={val.id} 
                 keyVal={key} 
-                val={val} 
-                //updateMethod={() => this.updateNote(key)} 
-                />);
+                val={val} />);
 
         return (
             <View style={styles.container}>
@@ -63,7 +60,7 @@ export default class Watson extends Component {
                         <View>
                             <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
                                 <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
-                                    <Text style={{fontSize: 15}}>Hide Modal</Text>
+                                    <Text style={{fontSize: 15}}>Close</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>
