@@ -5,7 +5,7 @@ import {
     View,
     Text,
     List,
-    TouchableOpacity } from 'react-native'; 
+    Linking } from 'react-native'; 
 
 export default class Prediction extends Component {
 
@@ -14,17 +14,20 @@ export default class Prediction extends Component {
 
             <View key={this.props.keyVal} style={styles.prediction}>
             
-                <TouchableOpacity>
                     <View>
                         <Text style={styles.predictionTxt}>Class: {this.props.val.class}</Text>
                         <Text style={styles.predictionTxt}>Confidence Score: {this.props.val.score}</Text>
                         <Text style={styles.predictionTxt}>Type Hierarchy: {this.props.val.type_hierarchy != null ? this.props.val.type_hierarchy : this.props.val.class}</Text>
                     </View>
-                </TouchableOpacity>
+                    <View style={styles.linkContainer}>
+                        <Text style={styles.link}
+                            onPress={() => Linking.openURL(`https://www.google.com/search?q=${this.props.val.class}`)}> Search Google
+                        </Text>
+                        <Text style={styles.link}
+                            onPress={() => Linking.openURL(`https://en.wikipedia.org/wiki/${this.props.val.class}`)}> Search Wikipedia
+                        </Text>
+                    </View>
 
-                {/* <TouchableOpacity>
-                    <Text>DELETE</Text>
-                </TouchableOpacity> */}
 
             </View>
         );
@@ -44,17 +47,10 @@ const styles = StyleSheet.create({
         borderLeftWidth: 10,
         borderLeftColor: '#e91e63'
     },
-    noteDelete: {
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#ff0000',
-        padding: 10,
-        top: 10,
-        bottom: 10,
-        right: 10
+    linkContainer: {
+        flexDirection: 'row',
     },
-    noteDeleteText: {
-        color: 'white'
+    link: {
+        color: 'blue',
     }
 });
