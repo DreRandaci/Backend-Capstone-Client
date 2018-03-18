@@ -25,4 +25,7 @@ const styles = StyleSheet.create({
     }  
 });
 
+// Disables yellowbox warnings
+console.disableYellowBox = true;
+
 AppRegistry.registerComponent('Watson', () => App);

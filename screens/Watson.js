@@ -5,21 +5,31 @@ import {
     TouchableOpacity, 
     Text,
     Modal,
-    TouchableHighlight } from 'react-native'; 
+    TouchableHighlight,
+    ScrollView } from 'react-native'; 
 import React, { Component } from 'react';
 import { RNCamera } from 'react-native-camera';
 import UserImage from '../components/UserImage';
+import Prediction from '../components/Prediction';
 
 export default class Watson extends Component {    
     constructor(props) {
         super(props);
         this.state = {
             modalVisible: false,
-            currentPic: ''
+            currentPic: '',
+            predictionData: []
         };
     };        
 
     render() {
+
+        let predictions = this.state.predictionData.map((val, key) =>
+            <Prediction
+                key={key} 
+                keyVal={key} 
+                val={val} />);
+
         return (
             <View style={styles.container}>
                 <RNCamera
@@ -41,24 +51,26 @@ export default class Watson extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        alert('Modal has been closed.');
-                    }}>
+                <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { alert('Modal has been closed.');}}>
+
                     <View style={{marginTop: 22}}>
+
                         <UserImage source={this.state.currentPic}/>
+
                         <View>
-                            <TouchableHighlight
-                                onPress={() => {
-                                this.setModalVisible(!this.state.modalVisible);
-                                }}>
-                                <Text>Hide Modal</Text>
+                            <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
+                                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
+                                    <Text style={{fontSize: 15}}>Close</Text>
+                                </View>
                             </TouchableHighlight>
                         </View>
+
+                        <ScrollView>
+                            {predictions}   
+                        </ScrollView>
+
                     </View>
+
                 </Modal>
 
             </View>
@@ -66,24 +78,24 @@ export default class Watson extends Component {
     };    
 
 setModalVisible(visible) {
-    this.setState({modalVisible: visible, currentPic: ''});
+    this.predictions = [];
+    this.setState({modalVisible: visible, currentPic: '', predictionData: []});
 };
 
 takePicture = async function(modalOpen) {
     
     if (this.camera) {
-        const options = { quality: 0.5, base64: true };
+        const options = { quality: 0.3, base64: true };
         const pic = await this.camera.takePictureAsync(options);      
         
-        this.setState({currentPic: pic.uri});
-        this.setState({modalVisible: modalOpen});
+        this.setState({currentPic: pic.uri});        
       
-      const data = new FormData();      
-      data.append('file', {
-        uri: pic.uri,
-        type: `image/${pic.type}`, 
-        name: `${pic.name}`
-      });
+        const data = new FormData();      
+        data.append('file', {
+            uri: pic.uri,
+            type: `image/${pic.type}`, 
+            name: `${pic.uri}`
+        });
       
       fetch(`http://watson.drerandaci.com/api/prediction`, {
         method: 'POST',
@@ -93,13 +105,11 @@ takePicture = async function(modalOpen) {
         },
         body: data
       }).then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log("error in watson prediction post:", err));
-      console.log("data:", data);
+            .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
+            .catch(err => console.log("error in watson prediction post:", err));
     }
   };
 };
-
 
 const styles = StyleSheet.create({
     container: {
