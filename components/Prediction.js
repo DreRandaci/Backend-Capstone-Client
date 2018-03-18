@@ -37,14 +37,14 @@ export default class Prediction extends Component {
 const styles = StyleSheet.create({
     prediction: {
         position: 'relative',
-        padding: 20,
-        paddingRight: 100,
+        padding: 10,
+        // paddingRight: 100,
         borderBottomWidth: 2,
         borderBottomColor: '#ededed'
     },
     predictionTxt: {
         paddingLeft: 5,
-        borderLeftWidth: 10,
+        // borderLeftWidth: 10,
         borderLeftColor: '#e91e63'
     },
     linkContainer: {

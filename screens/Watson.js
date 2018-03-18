@@ -9,6 +9,7 @@ import {
     ScrollView } from 'react-native'; 
 import React, { Component } from 'react';
 import { RNCamera } from 'react-native-camera';
+import { Button } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import Prediction from '../components/Prediction';
 
@@ -55,19 +56,28 @@ export default class Watson extends Component {
 
                     <View style={{marginTop: 22}}>
 
-                        <UserImage source={this.state.currentPic}/>
+                        <UserImage source={this.state.currentPic} predictions={predictions}/>
 
                         <View>
-                            <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-                                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
-                                    <Text style={{fontSize: 15}}>Close</Text>
-                                </View>
-                            </TouchableHighlight>
+                            <Button 
+                                title='Watson' 
+                                raised 
+                                backgroundColor='#03A9F4'
+                                buttonStyle={styles.button}
+                                onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
+                            </Button>
+                            <Button 
+                                title='Save' 
+                                raised
+                                backgroundColor='#03A9F4'
+                                buttonStyle={styles.button} 
+                                onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
+                            </Button>
                         </View>
 
-                        <ScrollView>
+                        {/* <ScrollView>
                             {predictions}   
-                        </ScrollView>
+                        </ScrollView> */}
 
                     </View>
 
@@ -137,5 +147,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         fontSize: 20,
         alignSelf: 'center',
+    },
+    button: {
+        borderRadius: 0, 
+        marginLeft: 0, 
+        marginRight: 0, 
+        marginBottom: 0,
     }
 });

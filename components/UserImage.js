@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { Image, StyleSheet, Dimensions, View } from 'react-native'; 
+import { Image, StyleSheet, Dimensions, View, ScrollView } from 'react-native';
+import { Card } from 'react-native-elements'; 
 
 
 export default class UserImage extends Component {
@@ -12,15 +13,14 @@ export default class UserImage extends Component {
     render() {
         return (
             <View>            
-                <Image style={styles.img} source={{uri: this.props.source}}/>
+                <Card 
+                    image={{uri: this.props.source}}
+                    title='Results'>
+                    <ScrollView>
+                        {this.props.predictions}
+                    </ScrollView>
+                </Card>
             </View>
         );
     };
 };
-
-const styles = StyleSheet.create({
-    img: {
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').width
-    }
-});
