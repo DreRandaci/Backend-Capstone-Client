@@ -11,40 +11,57 @@ import {
     ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import UserImage from '../components/UserImage';
+import Watson from '../screens/Watson';
 
-export default class Watson extends Component { 
-    constructor(props) {
-        super(props);
-        this.state = {
+export default class PredictionModal extends Component {    
 
-        }
+    modalCtrl = () => {
+        this.props.modalCtrl();
     };
 
-    render() {
+    render() {        
         return(
-            <Modal 
-                animationType="slide" 
-                transparent={false} 
-                visible={this.state.modalVisible} 
-                onRequestClose={() => { alert('Modal has been closed.');}}>
+            <View>
+            
+                <Modal 
+                    animationType="slide" 
+                    transparent={false} 
+                    visible={this.props.modalVisible} 
+                    onRequestClose={() => { alert('Modal has been closed.');}}>
 
-                    <ScrollView style={styles.scrollViewContainer}>
+                        <ScrollView style={styles.scrollViewContainer}>
 
-                        <UserImage source={this.state.currentPic} predictions={predictions}/>
+                            <UserImage source={this.props.currentPic} predictions={this.props.predictions}/>
 
-                        <View>
-                            <Button 
-                                title='Watson' 
-                                raised 
-                                backgroundColor='#03A9F4'
-                                buttonStyle={styles.button}
-                                onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-                            </Button>
-                        </View>
+                            <View>
+                                <Button 
+                                    title='Watson' 
+                                    raised 
+                                    backgroundColor='#03A9F4'
+                                    buttonStyle={styles.button}
+                                    onPress={this.modalCtrl} 
+                                    >
+                                </Button>
+                            </View>
 
-                    </ScrollView>
+                        </ScrollView>
 
-            </Modal>      
+                </Modal> 
+
+            </View>    
         );
     };
-}
+};
+
+const styles = StyleSheet.create({
+    scrollViewContainer: {
+        marginTop: 25,
+        marginBottom: 25
+    },
+    button: {
+        borderRadius: 0, 
+        marginLeft: 0, 
+        marginRight: 0, 
+        marginBottom: 0,
+    },
+});

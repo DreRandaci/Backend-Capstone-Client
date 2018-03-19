@@ -58,26 +58,34 @@ export default class Images extends Component {
                         );
                     })}
                 </ScrollView>
+
+                <PredictionModal
+                    modalVisible={this.state.modalVisible}
+                    modalCtrl={this.setModalVisible.bind(this)}
+                    currentPic={this.state.currentPic} 
+                    predictions={predictions}
+                />    
+
             </View>
         );
     };
+    
+    classify = (pic) => {
+        
+        const data = new FormData();      
+        data.append('file', {
+            uri: pic.uri,
+            type: `image/${pic.type}`, 
+            name: `${pic.uri}`
+        });
+        
+        Classify.getClassification(data)
+            .then(res => res.json())
+            .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
+            .catch(err => console.log("error in watson prediction post:", err));
+    };
 };
-
-const classify = (pic) => {
-
-    const data = new FormData();      
-    data.append('file', {
-        uri: pic.uri,
-        type: `image/${pic.type}`, 
-        name: `${pic.uri}`
-    });
-
-    Classify.getClassification(data)
-                .then(res => res.json())
-                .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
-                .catch(err => console.log("error in watson prediction post:", err));
-};
-            
+    
 
 const styles = StyleSheet.create({
     container: {

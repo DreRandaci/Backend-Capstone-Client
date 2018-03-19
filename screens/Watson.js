@@ -11,10 +11,13 @@ import React, { Component } from 'react';
 import { RNCamera } from 'react-native-camera';
 import { Button } from 'react-native-elements';
 import UserImage from '../components/UserImage';
+import PredictionModal from '../components/PredictionModal';
 import Prediction from '../components/Prediction';
 import Classify from '../actions/WatsonClassify';
 
+
 export default class Watson extends Component {    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -46,13 +49,6 @@ export default class Watson extends Component {
                 />
                 
                 <View>
-                    {/* <Button 
-                        title='Watson'
-                        backgroundColor='#03A9F4'
-                        buttonStyle={{borderRadius:100}}
-                        onPress={this.takePicture.bind(this, !this.state.modalVisible)}
-                        >
-                    </Button>     */}
 
                     <TouchableOpacity
                         onPress={this.takePicture.bind(this, !this.state.modalVisible)}
@@ -60,56 +56,48 @@ export default class Watson extends Component {
                     >
                         <Text style={{fontSize: 15}}> Watson </Text>
                     </TouchableOpacity>
+
                 </View>
 
-                <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { alert('Modal has been closed.');}}>
-
-                    <ScrollView style={styles.scrollViewContainer}>
-
-                        <UserImage source={this.state.currentPic} predictions={predictions}/>
-
-                        <View>
-                            <Button 
-                                title='Watson' 
-                                raised 
-                                backgroundColor='#03A9F4'
-                                buttonStyle={styles.button}
-                                onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-                            </Button>
-                        </View>
-
-                    </ScrollView>
-
-                </Modal>
+                <PredictionModal
+                    modalVisible={this.state.modalVisible}
+                    modalCtrl={this.setModalVisible.bind(this)}
+                    currentPic={this.state.currentPic} 
+                    predictions={predictions}
+                />
 
             </View>
         );
     };    
 
-setModalVisible(visible) {
-    this.predictions = [];
-    this.setState({modalVisible: visible, currentPic: '', predictionData: []});
-};
+    setModalVisible() {
+        this.predictions = [];
+        this.setState(prevState => ({
+            modalVisible: !prevState.modalVisible, 
+            currentPic: '', 
+            predictionData: []
+        }));
+    };
 
-takePicture = async function(modalOpen) {
-    
-    if (this.camera) {
-        const options = { quality: 0.3, base64: true };
-        const pic = await this.camera.takePictureAsync(options);      
+    takePicture = async function(modalOpen) {
         
-        this.setState({currentPic: pic.uri});        
-      
-        const data = new FormData();      
-        data.append('file', {
-            uri: pic.uri,
-            type: `image/${pic.type}`, 
-            name: `${pic.uri}`
-        });
-      
-        Classify.getClassification(data)
-            .then(res => res.json())
-            .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
-            .catch(err => console.log("error in watson prediction post:", err));
+        if (this.camera) {
+            const options = { quality: 0.3, base64: true };
+            const pic = await this.camera.takePictureAsync(options);      
+            
+            this.setState({currentPic: pic.uri});        
+        
+            const data = new FormData();      
+            data.append('file', {
+                uri: pic.uri,
+                type: `image/${pic.type}`, 
+                name: `${pic.uri}`
+            });
+        
+            Classify.getClassification(data)
+                .then(res => res.json())
+                .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
+                .catch(err => console.log("error in watson prediction post:", err));
         }
     };
 };
