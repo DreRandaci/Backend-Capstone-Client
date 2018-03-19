@@ -29,11 +29,13 @@ export default class Watson extends Component {
 
     render() {
 
-        let predictions = this.state.predictionData.map((val, key) =>
-            <Prediction
-                key={key} 
-                keyVal={key} 
-                val={val} />);
+        const predictions = [].concat(this.state.predictionData)
+            .sort((a, b) => b.score > a.score)
+                .map((val, key) => 
+                    <Prediction
+                        key={key} 
+                        keyVal={key} 
+                        val={val} />);
 
         return (
             <View style={styles.container}>
@@ -85,8 +87,6 @@ export default class Watson extends Component {
             const options = { quality: 0.3, base64: true };
             const pic = await this.camera.takePictureAsync(options);      
             
-            this.setState({currentPic: pic.uri});        
-        
             const data = new FormData();      
             data.append('file', {
                 uri: pic.uri,
@@ -96,7 +96,10 @@ export default class Watson extends Component {
         
             Classify.getClassification(data)
                 .then(res => res.json())
-                .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
+                .then(d => this.setState({
+                    predictionData: d, 
+                    modalVisible: !this.state.modalVisible, 
+                    currentPic: pic.uri}))
                 .catch(err => console.log("error in watson prediction post:", err));
         }
     };

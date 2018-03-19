@@ -31,21 +31,21 @@ export default class PredictionModal extends Component {
 
                         <ScrollView style={styles.scrollViewContainer}>
 
-                            <UserImage source={this.props.currentPic} predictions={this.props.predictions}/>
-
-                            <View>
-                                <Button 
-                                    title='Watson' 
-                                    raised 
-                                    backgroundColor='#03A9F4'
-                                    buttonStyle={styles.button}
-                                    onPress={this.modalCtrl} 
-                                    >
-                                </Button>
-                            </View>
+                            <UserImage 
+                                source={this.props.currentPic} 
+                                predictions={this.props.predictions}/>
 
                         </ScrollView>
-
+                        <View>
+                            <Button 
+                                title='Watson' 
+                                raised 
+                                backgroundColor='#03A9F4'
+                                buttonStyle={styles.button}
+                                onPress={this.modalCtrl} 
+                                >
+                            </Button>
+                        </View>
                 </Modal> 
 
             </View>    
@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
         borderRadius: 0, 
         marginLeft: 0, 
         marginRight: 0, 
-        marginBottom: 0,
+        marginBottom: 10,
     },
 });

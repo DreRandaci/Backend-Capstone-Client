@@ -12,13 +12,18 @@ import {
 import { List, ListItem } from 'react-native-elements';    
 import UserImage from '../components/UserImage';
 import Classify from '../actions/WatsonClassify';
+import PredictionModal from '../components/PredictionModal';
+import Prediction from '../components/Prediction';
 
 export default class Images extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            photos: []
+            photos: [],
+            predictionData: [],
+            modalVisible: false,
+            currentPic: ''
         };
     };
 
@@ -40,6 +45,15 @@ export default class Images extends Component {
     // };
 
     render() {
+
+        const predictions = [].concat(this.state.predictionData)
+            .sort((a, b) => b.score > a.score)
+                .map((val, key) => 
+                    <Prediction
+                        key={key} 
+                        keyVal={key} 
+                        val={val} />);
+
         return (
             <View style={styles.container}>
                 <Text style={styles.header}>Select an image to send to Watson</Text>
@@ -81,9 +95,22 @@ export default class Images extends Component {
         
         Classify.getClassification(data)
             .then(res => res.json())
-            .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
+            .then(d => this.setState({
+                predictionData: d, 
+                modalVisible: !this.state.modalVisible,
+                currentPic: pic.uri}))
             .catch(err => console.log("error in watson prediction post:", err));
     };
+
+    setModalVisible() {
+        this.predictions = [];
+        this.setState(prevState => ({
+            modalVisible: !prevState.modalVisible, 
+            currentPic: '', 
+            predictionData: []
+        }));
+    };
+
 };
     
 
