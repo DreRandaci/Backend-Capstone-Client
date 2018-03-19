@@ -76,13 +76,6 @@ export default class Watson extends Component {
                                 buttonStyle={styles.button}
                                 onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
                             </Button>
-                            <Button 
-                                title='Save' 
-                                raised
-                                backgroundColor='#03A9F4'
-                                buttonStyle={styles.button} 
-                                onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-                            </Button>
                         </View>
 
                     </ScrollView>

@@ -46,7 +46,9 @@ export default class Images extends Component {
                 <ScrollView>
                     {this.state.photos.map((pic, key) => {
                         return (
-                            <TouchableOpacity onPress={() => this.classify(pic.node.image)} >
+                            <TouchableOpacity 
+                                onPress={() => this.classify(pic.node.image)} 
+                                key={key}>
                                 <Image
                                     key={key}
                                     style={styles.img}
