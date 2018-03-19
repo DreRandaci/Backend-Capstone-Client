@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import { material } from 'react-native-typography';
 import { 
     Dimensions,
     CameraRoll,
@@ -52,7 +53,7 @@ export default class Images extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.header}>Select an image to send to Watson</Text>
+                <Text style={material.title}>Select an image to send to Watson</Text>
                 <ScrollView>
                     {this.state.photos.map((pic, key) => {
                         return (
