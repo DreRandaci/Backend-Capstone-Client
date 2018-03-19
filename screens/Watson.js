@@ -96,11 +96,11 @@ export default class Watson extends Component {
         
             Classify.getClassification(data)
                 .then(res => res.json())
-                .then(d => this.setState({
-                    predictionData: d, 
-                    modalVisible: !this.state.modalVisible, 
-                    currentPic: pic.uri}))
-                .catch(err => console.log("error in watson prediction post:", err));
+                    .then(d => this.setState({
+                        predictionData: d, 
+                        modalVisible: !this.state.modalVisible, 
+                        currentPic: pic.uri}))
+                    .catch(err => console.log("error in watson prediction post:", err));
         }
     };
 };

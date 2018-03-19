@@ -38,11 +38,7 @@ export default class Images extends Component {
         .catch((err) => {
             console.log('error in componentDidMount loading users camera roll:', err)
         });
-    };
-
-    // viewImgDetail = (img) => {
-    //     this.props.navigation.navigate('Details', { ...img });
-    // };
+    };    
 
     render() {
 
@@ -95,11 +91,11 @@ export default class Images extends Component {
         
         Classify.getClassification(data)
             .then(res => res.json())
-            .then(d => this.setState({
-                predictionData: d, 
-                modalVisible: !this.state.modalVisible,
-                currentPic: pic.uri}))
-            .catch(err => console.log("error in watson prediction post:", err));
+                .then(d => this.setState({
+                    predictionData: d, 
+                    modalVisible: !this.state.modalVisible,
+                    currentPic: pic.uri}))
+                .catch(err => console.log("error in watson prediction post:", err));
     };
 
     setModalVisible() {
@@ -129,7 +125,6 @@ const styles = StyleSheet.create({
     },
     img: {
         width: Dimensions.get('window').width,
-        // height: Dimensions.get('window').height
         height: 300
     }
 });
