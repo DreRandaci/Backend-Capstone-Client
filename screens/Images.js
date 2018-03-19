@@ -42,7 +42,7 @@ export default class Images extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.header}>Select an Image to Send to Watson</Text>
+                <Text style={styles.header}>Select an image to send to Watson</Text>
                 <ScrollView>
                     {this.state.photos.map((pic, key) => {
                         return (
@@ -61,7 +61,7 @@ export default class Images extends Component {
     };
 };
 
-classify = (pic) => {
+const classify = (pic) => {
 
     const data = new FormData();      
     data.append('file', {
