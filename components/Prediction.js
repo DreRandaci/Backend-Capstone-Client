@@ -17,7 +17,7 @@ export default class Prediction extends Component {
             
                     <View>
                         <Text style={material.body1}>Class: {this.props.val.class}</Text>
-                        <Text style={material.body1}>Confidence Score: {this.props.val.score}</Text>
+                        <Text style={material.body2}>Confidence Score: {this.props.val.score}</Text>
                         <Text style={material.body1}>Type Hierarchy: {this.props.val.type_hierarchy != null ? this.props.val.type_hierarchy : this.props.val.class}</Text>
                     </View>
                     <View style={styles.linkContainer}>
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     link: {
+        paddingTop: 15,
         color: 'blue',        
     }
 });
