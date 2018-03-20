@@ -45,14 +45,6 @@ export default class Images extends Component {
 
     render() {
 
-        const predictions = [].concat(this.state.predictionData)
-            .sort((a, b) => b.score > a.score)
-                .map((val, key) => 
-                    <Prediction
-                        key={key} 
-                        keyVal={key} 
-                        val={val} />);
-
         return (
             <View style={styles.container}>
                 <Text style={[material.title, styles.header]}>Select an image to send to Watson</Text>                            
@@ -76,7 +68,7 @@ export default class Images extends Component {
                     modalVisible={this.state.modalVisible}
                     modalCtrl={this.setModalVisible.bind(this)}
                     currentPic={this.state.currentPic} 
-                    predictions={predictions}
+                    predictions={this.state.predictionData}
                 />    
             
             {this.state.animating && 

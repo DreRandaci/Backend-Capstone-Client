@@ -28,7 +28,7 @@ export default class PredictionModal extends Component {
                     <Prediction
                         key={key} 
                         keyVal={key} 
-                        val={val.props.val} />);
+                        val={val} />);
         
         return(
             <View>

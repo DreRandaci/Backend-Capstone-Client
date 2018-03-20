@@ -10,7 +10,7 @@ import {
     ScrollView } from 'react-native'; 
 import React, { Component } from 'react';
 import { RNCamera } from 'react-native-camera';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import PredictionModal from '../components/PredictionModal';
 import Prediction from '../components/Prediction';
@@ -27,35 +27,37 @@ export default class Watson extends Component {
             currentPic: '',
             predictionData: [],
             animating: false,
-            faces: false
+            faces: false,
+            frontCamera: false
         };
     };        
 
     render() {
 
-        // const predictions = [].concat(this.state.predictionData)
-        //     .sort((a, b) => b.score > a.score)
-        //         .map((val, key) => 
-        //             <Prediction
-        //                 key={key} 
-        //                 keyVal={key} 
-        //                 val={val} />);
-
         return (
             <View style={styles.container}>
-                
-                <TouchableOpacity onPress={this.detectFaces.bind(this)}>
-                    <Text style={[styles.faces, {color: this.state.faces ? '#065DD6':'#F5E215'}]}>
-                        Detect Faces {this.state.faces ? 'On' : 'Off'}
-                    </Text>
-                </TouchableOpacity>
+
+                <View style={styles.topTouchablesContainer}>
+                    <TouchableOpacity onPress={this.detectFaces.bind(this)}>
+                        <Text style={{color: this.state.faces ? '#065DD6':'#F5E215'}}>
+                            Faces {this.state.faces ? 'On' : 'Off'}
+                        </Text>                    
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={this.changeCamera.bind(this)}>
+                        <Text style={{color: this.state.frontCamera ? '#065DD6':'#F5E215'}}>
+                            <Icon name="cached" size={30} color='white'/> 
+                            {/* {this.state.frontCamera ? 'Front' : 'Main'} Camera */}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
                 <RNCamera
                     ref={ref => {
                     this.camera = ref;
                     }}
                     style = {styles.preview}
-                    type={RNCamera.Constants.Type.back}
+                    type={this.state.frontCamera ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back}
                     flashMode={RNCamera.Constants.FlashMode.auto}
                     permissionDialogTitle={'Permission to use camera'}
                     permissionDialogMessage={'We need your permission to use your camera phone'}
@@ -91,8 +93,12 @@ export default class Watson extends Component {
         );
     };    
 
+    changeCamera() {
+        this.setState({frontCamera: !this.state.frontCamera});
+    }
+
     detectFaces() {
-        this.setState({faces: !this.state.faces})
+        this.setState({faces: !this.state.faces});
     };
 
     setModalVisible() {
@@ -136,8 +142,16 @@ export default class Watson extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',                
-      },
+        flexDirection: 'column',
+        backgroundColor: '#000',                
+    },
+    topTouchablesContainer: {
+        marginTop: 30,
+        padding: 10,
+        flexDirection: 'row',
+        flex: 0,
+        justifyContent: 'space-between'
+    },
     preview: {
         flex: 1,
         justifyContent: 'flex-end',
@@ -146,18 +160,11 @@ const styles = StyleSheet.create({
     capture: {
         flex: 0,
         backgroundColor: '#fff',
-        // borderRadius: 5,
-        // padding: 15,
-        // paddingHorizontal: 20,
-        // alignSelf: 'center',
-        // margin: 20
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        alignItems: 'center',
-
+        borderRadius: 5,
+        padding: 15,
+        paddingHorizontal: 20,
+        alignSelf: 'center',
+        margin: 20        
     },
     response: {
         flex: 0,
