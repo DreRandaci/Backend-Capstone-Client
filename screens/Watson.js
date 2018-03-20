@@ -9,10 +9,15 @@ import {
     ScrollView } from 'react-native'; 
 import React, { Component } from 'react';
 import { RNCamera } from 'react-native-camera';
+import { Button } from 'react-native-elements';
 import UserImage from '../components/UserImage';
+import PredictionModal from '../components/PredictionModal';
 import Prediction from '../components/Prediction';
+import Classify from '../actions/WatsonClassify';
+
 
 export default class Watson extends Component {    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -24,91 +29,80 @@ export default class Watson extends Component {
 
     render() {
 
-        let predictions = this.state.predictionData.map((val, key) =>
-            <Prediction
-                key={key} 
-                keyVal={key} 
-                val={val} />);
+        const predictions = [].concat(this.state.predictionData)
+            .sort((a, b) => b.score > a.score)
+                .map((val, key) => 
+                    <Prediction
+                        key={key} 
+                        keyVal={key} 
+                        val={val} />);
 
         return (
             <View style={styles.container}>
                 <RNCamera
-                ref={ref => {
-                this.camera = ref;
-                }}
-                style = {styles.preview}
-                type={RNCamera.Constants.Type.back}
-                flashMode={RNCamera.Constants.FlashMode.auto}
-                permissionDialogTitle={'Permission to use camera'}
-                permissionDialogMessage={'We need your permission to use your camera phone'}
+                    ref={ref => {
+                    this.camera = ref;
+                    }}
+                    style = {styles.preview}
+                    type={RNCamera.Constants.Type.back}
+                    flashMode={RNCamera.Constants.FlashMode.auto}
+                    permissionDialogTitle={'Permission to use camera'}
+                    permissionDialogMessage={'We need your permission to use your camera phone'}
                 />
-                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
+                
+                <View>
+
                     <TouchableOpacity
                         onPress={this.takePicture.bind(this, !this.state.modalVisible)}
                         style = {styles.capture}
                     >
                         <Text style={{fontSize: 15}}> Watson </Text>
                     </TouchableOpacity>
+
                 </View>
 
-                <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { alert('Modal has been closed.');}}>
-
-                    <View style={{marginTop: 22}}>
-
-                        <UserImage source={this.state.currentPic}/>
-
-                        <View>
-                            <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-                                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
-                                    <Text style={{fontSize: 15}}>Close</Text>
-                                </View>
-                            </TouchableHighlight>
-                        </View>
-
-                        <ScrollView>
-                            {predictions}   
-                        </ScrollView>
-
-                    </View>
-
-                </Modal>
+                <PredictionModal
+                    modalVisible={this.state.modalVisible}
+                    modalCtrl={this.setModalVisible.bind(this)}
+                    currentPic={this.state.currentPic} 
+                    predictions={predictions}
+                />
 
             </View>
         );
     };    
 
-setModalVisible(visible) {
-    this.predictions = [];
-    this.setState({modalVisible: visible, currentPic: '', predictionData: []});
-};
+    setModalVisible() {
+        this.predictions = [];
+        this.setState(prevState => ({
+            modalVisible: !prevState.modalVisible, 
+            currentPic: '', 
+            predictionData: []
+        }));
+    };
 
-takePicture = async function(modalOpen) {
-    
-    if (this.camera) {
-        const options = { quality: 0.3, base64: true };
-        const pic = await this.camera.takePictureAsync(options);      
+    takePicture = async function(modalOpen) {
         
-        this.setState({currentPic: pic.uri});        
-      
-        const data = new FormData();      
-        data.append('file', {
-            uri: pic.uri,
-            type: `image/${pic.type}`, 
-            name: `${pic.uri}`
-        });
-      
-      fetch(`http://watson.drerandaci.com/api/prediction`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'multipart/form-data;'
-        },
-        body: data
-      }).then(res => res.json())
-            .then(d => this.setState({predictionData: d, modalVisible: modalOpen}))
-            .catch(err => console.log("error in watson prediction post:", err));
-    }
-  };
+        if (this.camera) {
+            const options = { quality: 0.3, base64: true };
+            const pic = await this.camera.takePictureAsync(options);      
+            
+            const data = new FormData();      
+            data.append('file', {
+                uri: pic.uri,
+                type: `image/${pic.type}`, 
+                name: `${pic.uri}`
+            });
+        
+            Classify.getClassification(data)
+                .then(res => res.json())
+                    .then(d => this.setState({
+                        predictionData: d, 
+                        modalVisible: !this.state.modalVisible, 
+                        currentPic: pic.uri}))
+                    .catch(err => console.log("error in watson prediction post:", err));
+        }
+    };
 };
 
 const styles = StyleSheet.create({
@@ -137,5 +131,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         fontSize: 20,
         alignSelf: 'center',
+    },
+    button: {
+        borderRadius: 0, 
+        marginLeft: 0, 
+        marginRight: 0, 
+        marginBottom: 0,
+    },
+    scrollViewContainer: {
+        marginTop: 25,
+        marginBottom: 25
     }
 });
