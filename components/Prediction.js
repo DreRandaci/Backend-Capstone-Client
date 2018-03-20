@@ -16,9 +16,9 @@ export default class Prediction extends Component {
             <View key={this.props.keyVal} style={styles.prediction}>
             
                     <View>
-                        <Text style={material.body1}>Class: {this.props.val.class}</Text>
-                        <Text style={material.body2}>Confidence Score: {this.props.val.score}</Text>
-                        <Text style={material.body1}>Type Hierarchy: {this.props.val.type_hierarchy != null ? this.props.val.type_hierarchy : this.props.val.class}</Text>
+                        <Text style={material.title}>Class: {this.props.val.class}</Text>
+                        <Text style={material.subheading}>Confidence Score: {this.props.val.score}</Text>
+                        <Text style={material.caption}>Type Hierarchy: {this.props.val.type_hierarchy != null ? this.props.val.type_hierarchy : this.props.val.class}</Text>
                     </View>
                     <View style={styles.linkContainer}>
                         <Text 
@@ -44,10 +44,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         borderBottomColor: '#ededed',
         flex: 1,
-    },
-    predictionTxt: {
-        paddingLeft: 5,
-        borderLeftColor: '#e91e63'
     },
     linkContainer: {
         flexDirection: 'row',
