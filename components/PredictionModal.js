@@ -12,6 +12,7 @@ import {
 import { Button } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import Watson from '../screens/Watson';
+import Prediction from '../components/Prediction';
 
 export default class PredictionModal extends Component {    
 
@@ -19,21 +20,29 @@ export default class PredictionModal extends Component {
         this.props.modalCtrl();
     };
 
-    render() {        
+    render() { 
+        
+        const predictions = [].concat(this.props.predictions)
+            .sort((a, b) => b.score > a.score)
+                .map((val, key) => 
+                    <Prediction
+                        key={key} 
+                        keyVal={key} 
+                        val={val.props.val} />);
+        
         return(
             <View>
             
                 <Modal 
                     animationType="slide" 
                     transparent={false} 
-                    visible={this.props.modalVisible} 
-                    onRequestClose={() => { alert('Modal has been closed.');}}>
+                    visible={this.props.modalVisible}>
 
                         <ScrollView style={styles.scrollViewContainer}>
 
                             <UserImage 
                                 source={this.props.currentPic} 
-                                predictions={this.props.predictions}/>
+                                predictions={predictions}/>
 
                         </ScrollView>
                         <View>

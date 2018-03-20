@@ -33,13 +33,13 @@ export default class Watson extends Component {
 
     render() {
 
-        const predictions = [].concat(this.state.predictionData)
-            .sort((a, b) => b.score > a.score)
-                .map((val, key) => 
-                    <Prediction
-                        key={key} 
-                        keyVal={key} 
-                        val={val} />);
+        // const predictions = [].concat(this.state.predictionData)
+        //     .sort((a, b) => b.score > a.score)
+        //         .map((val, key) => 
+        //             <Prediction
+        //                 key={key} 
+        //                 keyVal={key} 
+        //                 val={val} />);
 
         return (
             <View style={styles.container}>
@@ -76,7 +76,7 @@ export default class Watson extends Component {
                     modalVisible={this.state.modalVisible}
                     modalCtrl={this.setModalVisible.bind(this)}
                     currentPic={this.state.currentPic} 
-                    predictions={predictions}
+                    predictions={this.state.predictionData}
                 />
 
                 {this.state.animating && 
