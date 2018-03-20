@@ -9,7 +9,7 @@ import { FormLabel, FormInput, Button, CheckBox } from 'react-native-elements'
 import ClassifyUrl from '../actions/ClassifyGenericUrl';
 import DetectFacesUrl from '../actions/DetectFacesUrl';
 import PredictionModal from '../components/PredictionModal';
-import Prediction from '../components/Prediction';
+import ImagePrediction from '../components/ImagePrediction';
 import UserImage from '../components/UserImage';
 
 export default class ClassifyUrls extends Component {
@@ -66,7 +66,7 @@ export default class ClassifyUrls extends Component {
             
             {this.state.animating && 
                 <View style={styles.loading}>
-                    <Text style={{paddingBottom: 10, fontSize: 18}}>loading...</Text>
+                    <Text style={{paddingBottom: 10, fontSize: 18}}>classifying...</Text>
                     <ActivityIndicator 
                         size='large'
                         color='#000'/>
@@ -77,7 +77,7 @@ export default class ClassifyUrls extends Component {
     }
 
     toggleDetectFaces() {
-        this.setState({checked: !this.state.detectFaces})
+        this.setState({detectFaces: !this.state.detectFaces})
     };
 
     setModalVisible() {
@@ -91,18 +91,20 @@ export default class ClassifyUrls extends Component {
 
     async classifyUrl() {
         this.setState({animating: !this.state.animating});
-        if (this.state.url) {
-
-            let promise;
+        if (this.state.url) {            
             
-            this.state.detectFaces ? promise = await DetectFacesUrl.getFaceClassification(this.state.url) : promise = await ClassifyUrl.getClassification(this.state.url);
+            let promise = this.state.detectFaces 
+                ? await DetectFacesUrl.getFaceClassificationUrl(this.state.url) 
+                : await ClassifyUrl.getClassification(this.state.url);
         
             promise.json()
                     .then(d => this.setState({
-                                predictionData: d[0].classes, 
+                                predictionData: this.state.detectFaces ? d[0] : d[0].classes, 
+                                // predictionData: console.log(d[0]), 
                                 modalVisible: !this.state.modalVisible, 
-                                currentPic: this.state.url}))
-                        .catch(err => console.log("error in watson prediction post:", err));
+                                currentPic: this.state.url
+                            }))
+                        .catch(err => console.log("error in classify url:", err));
         } else {
             alert("URL is invalid. Make sure it ends in a .jpg or .png format");
         }

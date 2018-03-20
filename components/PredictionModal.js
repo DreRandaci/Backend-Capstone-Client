@@ -12,7 +12,8 @@ import {
 import { Button } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import Watson from '../screens/Watson';
-import Prediction from '../components/Prediction';
+import ImagePrediction from '../components/ImagePrediction';
+import UrlPrediction from '../components/UrlPrediction';
 
 export default class PredictionModal extends Component {    
 
@@ -24,11 +25,19 @@ export default class PredictionModal extends Component {
         
         const predictions = [].concat(this.props.predictions)
             .sort((a, b) => b.score > a.score)
-                .map((val, key) => 
-                    <Prediction
-                        key={key} 
-                        keyVal={key} 
-                        val={val} />);
+                .map((val, key) => {
+                    if (!val.age) {
+                        return <ImagePrediction
+                            key={key} 
+                            keyVal={key} 
+                            val={val} />
+                    } else {
+                        return <UrlPrediction
+                            key={key} 
+                            keyVal={key} 
+                            val={val} />
+                    }
+                });
         
         return(
             <View>

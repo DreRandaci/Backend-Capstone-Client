@@ -15,7 +15,7 @@ import { List, ListItem } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import ClassifyGeneric from '../actions/ClassifyGeneric';
 import PredictionModal from '../components/PredictionModal';
-import Prediction from '../components/Prediction';
+import ImagePrediction from '../components/ImagePrediction';
 
 export default class Images extends Component {
 
@@ -73,7 +73,7 @@ export default class Images extends Component {
             
             {this.state.animating && 
                 <View style={styles.loading}>
-                    <Text style={{paddingBottom: 10, fontSize: 18}}>loading...</Text>
+                    <Text style={{paddingBottom: 10, fontSize: 18}}>classifying...</Text>
                     <ActivityIndicator 
                         size='large'
                         color='#000'/>

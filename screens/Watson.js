@@ -13,7 +13,7 @@ import { RNCamera } from 'react-native-camera';
 import { Button, Icon } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import PredictionModal from '../components/PredictionModal';
-import Prediction from '../components/Prediction';
+import ImagePrediction from '../components/ImagePrediction';
 import ClassifyGeneric from '../actions/ClassifyGeneric';
 import DetectFaces from '../actions/DetectFaces';
 
@@ -83,7 +83,7 @@ export default class Watson extends Component {
 
                 {this.state.animating && 
                 <View style={styles.loading}>
-                    <Text style={{paddingBottom: 10, fontSize: 18}}>loading...</Text>
+                    <Text style={{paddingBottom: 10, fontSize: 18}}>classifying...</Text>
                     <ActivityIndicator 
                         size='large'
                         color='#000'/>
@@ -123,11 +123,11 @@ export default class Watson extends Component {
                 uri: pic.uri,
                 type: `image/${pic.type}`, 
                 name: `${pic.uri}`
-            });
-        
-            let promise;
+            });            
 
-            this.state.faces ? promise = await DetectFaces.getFaceClassification(data) : promise = await ClassifyGeneric.getClassification(data);
+            let promise = this.state.faces 
+                ? await DetectFaces.getFaceClassification(data) 
+                : ClassifyGeneric.getClassification(data);
 
             promise.json()
                     .then(d => this.setState({

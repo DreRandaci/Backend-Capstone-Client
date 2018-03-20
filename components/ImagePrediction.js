@@ -8,7 +8,7 @@ import {
     List,
     Linking } from 'react-native'; 
 
-export default class Prediction extends Component {
+export default class ImagePrediction extends Component {
 
     render() {
         return (
@@ -27,7 +27,6 @@ export default class Prediction extends Component {
                         </Text>
                         <Text 
                             style={styles.link}
-                            // onPress={() => Linking.openURL(`https://en.wikipedia.org/wiki/${this.props.val.class}`)}>Search Wikipedia
                             onPress={() => Linking.openURL(`https://en.m.wikipedia.org/w/index.php?search=${this.props.val.class}&title=Special:Search&fulltext=1`)}>Search Wikipedia
                         </Text>
                     </View>
