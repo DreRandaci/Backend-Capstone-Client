@@ -103,7 +103,6 @@ export default class Images extends Component {
     };
 
     setModalVisible() {
-        this.predictions = [];
         this.setState(prevState => ({
             modalVisible: !prevState.modalVisible, 
             currentPic: '', 

@@ -21,7 +21,7 @@ export default class ClassifyUrls extends Component {
             predictionData: [],
             currentPic: '',
             detectFaces: false,
-            url: '',
+            url: 'https://www.billboard.com/files/media/kid-rock-press-photo-2017-billboard-bw-1548.jpg',
             animating: false
         };
     };
@@ -35,28 +35,27 @@ export default class ClassifyUrls extends Component {
                     inputStyle={{paddingLeft: 5}}
                     value={this.state.url} 
                 />
-
                 <View style={styles.buttonContainer}>
-                <CheckBox
-                    onPress={this.toggleDetectFaces.bind(this)}
-                    center
-                    title='Decect Faces?'
-                    iconType='material'
-                    checkedIcon='check'
-                    uncheckedIcon='add'
-                    checkedColor='gray'
-                    checked={this.state.detectFaces}
-                />
+                    <CheckBox
+                        onPress={this.toggleDetectFaces.bind(this)}
+                        center
+                        title='Decect Faces?'
+                        iconType='material'
+                        checkedIcon='check'
+                        uncheckedIcon='add'
+                        checkedColor='gray'
+                        checked={this.state.detectFaces}
+                    />
+                
+                    <Button 
+                        title='Classify' 
+                        raised 
+                        color='white'
+                        backgroundColor='#065DD6'
+                        onPress={this.classifyUrl.bind(this)} 
+                        >
+                    </Button>
                 </View>
-                <Button 
-                    title='Classify' 
-                    raised 
-                    color='white'
-                    backgroundColor='#065DD6'
-                    onPress={this.classifyUrl.bind(this)} 
-                    >
-                </Button>
-
 
                 <PredictionModal
                     modalVisible={this.state.modalVisible}
@@ -81,7 +80,17 @@ export default class ClassifyUrls extends Component {
         this.setState({checked: !this.state.detectFaces})
     };
 
+    setModalVisible() {
+        this.setState(prevState => ({
+            modalVisible: !prevState.modalVisible, 
+            currentPic: '', 
+            predictionData: [],
+            animating: !this.state.animating
+        }));
+    };
+
     async classifyUrl() {
+        this.setState({animating: !this.state.animating});
         if (this.state.url) {
 
             let promise;
@@ -90,11 +99,12 @@ export default class ClassifyUrls extends Component {
         
             promise.json()
                     .then(d => this.setState({
-                                predictionData: d, 
+                                predictionData: d[0].classes, 
                                 modalVisible: !this.state.modalVisible, 
-                                currentPic: pic.uri}))
+                                currentPic: this.state.url}))
                         .catch(err => console.log("error in watson prediction post:", err));
-            ClassifyUrl.getClassification().then
+        } else {
+            alert("URL is invalid. Make sure it ends in a .jpg or .png format");
         }
     };
 
@@ -109,5 +119,15 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         padding: 8,
+    },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F5FCFF88'
     }
 });
