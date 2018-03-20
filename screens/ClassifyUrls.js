@@ -21,7 +21,7 @@ export default class ClassifyUrls extends Component {
             predictionData: [],
             currentPic: '',
             detectFaces: false,
-            url: 'https://www.billboard.com/files/media/kid-rock-press-photo-2017-billboard-bw-1548.jpg',
+            url: '',
             animating: false
         };
     };
@@ -39,7 +39,7 @@ export default class ClassifyUrls extends Component {
                     <CheckBox
                         onPress={this.toggleDetectFaces.bind(this)}
                         center
-                        title='Decect Faces?'
+                        title='Detect Faces?'
                         iconType='material'
                         checkedIcon='check'
                         uncheckedIcon='add'
@@ -93,14 +93,14 @@ export default class ClassifyUrls extends Component {
         this.setState({animating: !this.state.animating});
         if (this.state.url) {            
             
-            let promise = this.state.detectFaces 
-                ? await DetectFacesUrl.getFaceClassificationUrl(this.state.url) 
-                : await ClassifyUrl.getClassification(this.state.url);
+            let promise = 
+                this.state.detectFaces 
+                    ? await DetectFacesUrl.getFaceClassificationUrl(this.state.url) 
+                    : await ClassifyUrl.getClassification(this.state.url);
         
             promise.json()
                     .then(d => this.setState({
                                 predictionData: this.state.detectFaces ? d[0] : d[0].classes, 
-                                // predictionData: console.log(d[0]), 
                                 modalVisible: !this.state.modalVisible, 
                                 currentPic: this.state.url
                             }))
