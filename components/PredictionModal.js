@@ -38,9 +38,10 @@ export default class PredictionModal extends Component {
                         </ScrollView>
                         <View>
                             <Button 
-                                title='Watson' 
+                                title='Back' 
                                 raised 
-                                backgroundColor='#03A9F4'
+                                color='black'
+                                backgroundColor='#fff'
                                 buttonStyle={styles.button}
                                 onPress={this.modalCtrl} 
                                 >
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
         marginBottom: 25
     },
     button: {
-        borderRadius: 0, 
+        borderRadius: 50, 
         marginLeft: 0, 
         marginRight: 0, 
         marginBottom: 10,

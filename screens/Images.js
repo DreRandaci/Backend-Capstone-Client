@@ -13,7 +13,7 @@ import {
     TouchableOpacity } from 'react-native'; 
 import { List, ListItem } from 'react-native-elements';    
 import UserImage from '../components/UserImage';
-import Classify from '../actions/WatsonClassify';
+import ClassifyGeneric from '../actions/ClassifyGeneric';
 import PredictionModal from '../components/PredictionModal';
 import Prediction from '../components/Prediction';
 
@@ -101,7 +101,7 @@ export default class Images extends Component {
             name: `${pic.uri}`
         });
         
-        Classify.getClassification(data)
+        ClassifyGeneric.getClassification(data)
             .then(res => res.json())
                 .then(d => this.setState({
                     predictionData: d, 

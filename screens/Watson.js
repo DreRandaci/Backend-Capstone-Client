@@ -14,7 +14,8 @@ import { Button } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import PredictionModal from '../components/PredictionModal';
 import Prediction from '../components/Prediction';
-import Classify from '../actions/WatsonClassify';
+import ClassifyGeneric from '../actions/ClassifyGeneric';
+import DetectFaces from '../actions/DetectFaces';
 
 
 export default class Watson extends Component {    
@@ -25,7 +26,8 @@ export default class Watson extends Component {
             modalVisible: false,
             currentPic: '',
             predictionData: [],
-            animating: false
+            animating: false,
+            faces: false
         };
     };        
 
@@ -40,7 +42,14 @@ export default class Watson extends Component {
                         val={val} />);
 
         return (
-            <View style={styles.container}>                
+            <View style={styles.container}>
+                
+                <TouchableOpacity onPress={this.detectFaces.bind(this)}>
+                    <Text style={[styles.faces, {color: this.state.faces ? '#065DD6':'#F5E215'}]}>
+                        Detect Faces {this.state.faces ? 'On' : 'Off'}
+                    </Text>
+                </TouchableOpacity>
+
                 <RNCamera
                     ref={ref => {
                     this.camera = ref;
@@ -82,6 +91,10 @@ export default class Watson extends Component {
         );
     };    
 
+    detectFaces() {
+        this.setState({faces: !this.state.faces})
+    };
+
     setModalVisible() {
         this.predictions = [];
         this.setState(prevState => ({
@@ -106,12 +119,15 @@ export default class Watson extends Component {
                 name: `${pic.uri}`
             });
         
-            Classify.getClassification(data)
-                .then(res => res.json())
+            let promise;
+
+            this.state.faces ? promise = await DetectFaces.getFaceClassification(data) : promise = await ClassifyGeneric.getClassification(data);
+
+            promise.json()
                     .then(d => this.setState({
-                        predictionData: d, 
-                        modalVisible: !this.state.modalVisible, 
-                        currentPic: pic.uri}))
+                            predictionData: d, 
+                            modalVisible: !this.state.modalVisible, 
+                            currentPic: pic.uri}))
                     .catch(err => console.log("error in watson prediction post:", err));
         }
     };
@@ -120,8 +136,7 @@ export default class Watson extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        backgroundColor: 'black',
+        flexDirection: 'column',                
       },
     preview: {
         flex: 1,
@@ -131,11 +146,18 @@ const styles = StyleSheet.create({
     capture: {
         flex: 0,
         backgroundColor: '#fff',
-        borderRadius: 5,
-        padding: 15,
-        paddingHorizontal: 20,
-        alignSelf: 'center',
-        margin: 20
+        // borderRadius: 5,
+        // padding: 15,
+        // paddingHorizontal: 20,
+        // alignSelf: 'center',
+        // margin: 20
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+
     },
     response: {
         flex: 0,
@@ -163,5 +185,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F5FCFF88'
-      }
+      },
+    faces: {
+        color: 'white', 
+        marginTop: 30, 
+        marginLeft: 15,
+    }
 });
