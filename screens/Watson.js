@@ -1,5 +1,6 @@
 'use strict';
-import { 
+import {
+    ActivityIndicator, 
     View, 
     StyleSheet, 
     TouchableOpacity, 
@@ -23,7 +24,8 @@ export default class Watson extends Component {
         this.state = {
             modalVisible: false,
             currentPic: '',
-            predictionData: []
+            predictionData: [],
+            animating: false
         };
     };        
 
@@ -38,7 +40,7 @@ export default class Watson extends Component {
                         val={val} />);
 
         return (
-            <View style={styles.container}>
+            <View style={styles.container}>                
                 <RNCamera
                     ref={ref => {
                     this.camera = ref;
@@ -49,7 +51,7 @@ export default class Watson extends Component {
                     permissionDialogTitle={'Permission to use camera'}
                     permissionDialogMessage={'We need your permission to use your camera phone'}
                 />
-                
+
                 <View>
 
                     <TouchableOpacity
@@ -59,7 +61,7 @@ export default class Watson extends Component {
                         <Text style={{fontSize: 15}}> Watson </Text>
                     </TouchableOpacity>
 
-                </View>
+                </View>                
 
                 <PredictionModal
                     modalVisible={this.state.modalVisible}
@@ -67,6 +69,14 @@ export default class Watson extends Component {
                     currentPic={this.state.currentPic} 
                     predictions={predictions}
                 />
+
+                {this.state.animating && 
+                <View style={styles.loading}>
+                    <Text style={{paddingBottom: 10, fontSize: 18}}>loading...</Text>
+                    <ActivityIndicator 
+                        size='large'
+                        color='#000'/>
+                </View>}    
 
             </View>
         );
@@ -77,12 +87,14 @@ export default class Watson extends Component {
         this.setState(prevState => ({
             modalVisible: !prevState.modalVisible, 
             currentPic: '', 
-            predictionData: []
+            predictionData: [],
+            animating: !this.state.animating
         }));
     };
 
     takePicture = async function(modalOpen) {
-        
+        this.setState({animating: !this.state.animating});
+
         if (this.camera) {
             const options = { quality: 0.3, base64: true };
             const pic = await this.camera.takePictureAsync(options);      
@@ -109,7 +121,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: 'black'
+        backgroundColor: 'black',
       },
     preview: {
         flex: 1,
@@ -141,5 +153,15 @@ const styles = StyleSheet.create({
     scrollViewContainer: {
         marginTop: 25,
         marginBottom: 25
-    }
+    },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F5FCFF88'
+      }
 });

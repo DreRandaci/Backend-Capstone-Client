@@ -1,7 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { material } from 'react-native-typography';
-import { 
+import {
+    ActivityIndicator, 
     Dimensions,
     CameraRoll,
     View, 
@@ -24,7 +25,8 @@ export default class Images extends Component {
             photos: [],
             predictionData: [],
             modalVisible: false,
-            currentPic: ''
+            currentPic: '',
+            animating: false
         };
     };
 
@@ -53,8 +55,8 @@ export default class Images extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={material.title}>Select an image to send to Watson</Text>
-                <ScrollView>
+                <Text style={[material.title, styles.header]}>Select an image to send to Watson</Text>                            
+                    <ScrollView>                        
                     {this.state.photos.map((pic, key) => {
                         return (
                             <TouchableOpacity 
@@ -76,12 +78,21 @@ export default class Images extends Component {
                     currentPic={this.state.currentPic} 
                     predictions={predictions}
                 />    
+            
+            {this.state.animating && 
+                <View style={styles.loading}>
+                    <Text style={{paddingBottom: 10, fontSize: 18}}>loading...</Text>
+                    <ActivityIndicator 
+                        size='large'
+                        color='#000'/>
+                </View>}
 
-            </View>
+            </View>            
         );
     };
     
     classify = (pic) => {
+        this.setState({animating: !this.state.animating});
         
         const data = new FormData();      
         data.append('file', {
@@ -104,7 +115,8 @@ export default class Images extends Component {
         this.setState(prevState => ({
             modalVisible: !prevState.modalVisible, 
             currentPic: '', 
-            predictionData: []
+            predictionData: [],
+            animating: !this.state.animating
         }));
     };
 
@@ -116,16 +128,24 @@ const styles = StyleSheet.create({
         paddingTop: 35,
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center'
     },
-    header: {
-        fontSize: 16,
+    header: {        
         paddingBottom: 10,
     },
     img: {
         width: Dimensions.get('window').width,
         height: 300
+    },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F5FCFF88'
     }
 });
