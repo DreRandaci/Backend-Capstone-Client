@@ -13,9 +13,9 @@ import {
     TouchableOpacity } from 'react-native'; 
 import { List, ListItem } from 'react-native-elements';    
 import UserImage from '../components/UserImage';
-import Classify from '../actions/WatsonClassify';
+import ClassifyGeneric from '../actions/ClassifyGeneric';
 import PredictionModal from '../components/PredictionModal';
-import Prediction from '../components/Prediction';
+import ImagePrediction from '../components/ImagePrediction';
 
 export default class Images extends Component {
 
@@ -45,14 +45,6 @@ export default class Images extends Component {
 
     render() {
 
-        const predictions = [].concat(this.state.predictionData)
-            .sort((a, b) => b.score > a.score)
-                .map((val, key) => 
-                    <Prediction
-                        key={key} 
-                        keyVal={key} 
-                        val={val} />);
-
         return (
             <View style={styles.container}>
                 <Text style={[material.title, styles.header]}>Select an image to send to Watson</Text>                            
@@ -76,12 +68,12 @@ export default class Images extends Component {
                     modalVisible={this.state.modalVisible}
                     modalCtrl={this.setModalVisible.bind(this)}
                     currentPic={this.state.currentPic} 
-                    predictions={predictions}
+                    predictions={this.state.predictionData}
                 />    
             
             {this.state.animating && 
                 <View style={styles.loading}>
-                    <Text style={{paddingBottom: 10, fontSize: 18}}>loading...</Text>
+                    <Text style={{paddingBottom: 10, fontSize: 18}}>classifying...</Text>
                     <ActivityIndicator 
                         size='large'
                         color='#000'/>
@@ -101,7 +93,7 @@ export default class Images extends Component {
             name: `${pic.uri}`
         });
         
-        Classify.getClassification(data)
+        ClassifyGeneric.getClassification(data)
             .then(res => res.json())
                 .then(d => this.setState({
                     predictionData: d, 
@@ -111,7 +103,6 @@ export default class Images extends Component {
     };
 
     setModalVisible() {
-        this.predictions = [];
         this.setState(prevState => ({
             modalVisible: !prevState.modalVisible, 
             currentPic: '', 

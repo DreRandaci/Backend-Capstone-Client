@@ -12,6 +12,8 @@ import {
 import { Button } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import Watson from '../screens/Watson';
+import ImagePrediction from '../components/ImagePrediction';
+import UrlPrediction from '../components/UrlPrediction';
 
 export default class PredictionModal extends Component {    
 
@@ -19,28 +21,43 @@ export default class PredictionModal extends Component {
         this.props.modalCtrl();
     };
 
-    render() {        
+    render() { 
+        
+        const predictions = [].concat(this.props.predictions)
+            .sort((a, b) => b.age ? b.identity.score > a.identity.score : b.score > a.score
+                ).map((val, key) => 
+                    val.age ? <UrlPrediction
+                                key={key} 
+                                keyVal={key} 
+                                val={val} />
+                            : <ImagePrediction
+                                key={key} 
+                                keyVal={key} 
+                                val={val} />
+                );
+        
         return(
             <View>
             
                 <Modal 
                     animationType="slide" 
                     transparent={false} 
-                    visible={this.props.modalVisible} 
-                    onRequestClose={() => { alert('Modal has been closed.');}}>
+                    visible={this.props.modalVisible}>
 
                         <ScrollView style={styles.scrollViewContainer}>
 
                             <UserImage 
                                 source={this.props.currentPic} 
-                                predictions={this.props.predictions}/>
+                                predictions={predictions}/>
 
                         </ScrollView>
+                        
                         <View>
                             <Button 
-                                title='Watson' 
+                                title='Back' 
                                 raised 
-                                backgroundColor='#03A9F4'
+                                color='black'
+                                backgroundColor='#fff'
                                 buttonStyle={styles.button}
                                 onPress={this.modalCtrl} 
                                 >
@@ -59,7 +76,7 @@ const styles = StyleSheet.create({
         marginBottom: 25
     },
     button: {
-        borderRadius: 0, 
+        borderRadius: 50, 
         marginLeft: 0, 
         marginRight: 0, 
         marginBottom: 10,

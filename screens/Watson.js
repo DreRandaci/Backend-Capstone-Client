@@ -10,11 +10,13 @@ import {
     ScrollView } from 'react-native'; 
 import React, { Component } from 'react';
 import { RNCamera } from 'react-native-camera';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
+import { material } from 'react-native-typography';
 import UserImage from '../components/UserImage';
 import PredictionModal from '../components/PredictionModal';
-import Prediction from '../components/Prediction';
-import Classify from '../actions/WatsonClassify';
+import ImagePrediction from '../components/ImagePrediction';
+import ClassifyGeneric from '../actions/ClassifyGeneric';
+import DetectFaces from '../actions/DetectFaces';
 
 
 export default class Watson extends Component {    
@@ -25,28 +27,39 @@ export default class Watson extends Component {
             modalVisible: false,
             currentPic: '',
             predictionData: [],
-            animating: false
+            animating: false,
+            faces: false,
+            frontCamera: false
         };
     };        
 
     render() {
 
-        const predictions = [].concat(this.state.predictionData)
-            .sort((a, b) => b.score > a.score)
-                .map((val, key) => 
-                    <Prediction
-                        key={key} 
-                        keyVal={key} 
-                        val={val} />);
-
         return (
-            <View style={styles.container}>                
+            <View style={styles.container}>
+
+                <View style={styles.topTouchablesContainer}>
+                    <TouchableOpacity onPress={this.detectFaces.bind(this)}>
+                        <Text style={[material.subheading, {color: this.state.faces ? '#065DD6':'#000'}]}>
+                            Faces {this.state.faces ? 'On' : 'Off'}
+                        </Text>                    
+                    </TouchableOpacity>
+                    
+                    <Text style={[material.title, {paddingRight: 35}]}>Watson</Text>
+
+                    <TouchableOpacity onPress={this.changeCamera.bind(this)}>
+                        <Text style={{color: this.state.frontCamera ? '#065DD6':'#F5E215'}}>
+                            <Icon name="cached" size={30} color='black'/> 
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
                 <RNCamera
                     ref={ref => {
                     this.camera = ref;
                     }}
                     style = {styles.preview}
-                    type={RNCamera.Constants.Type.back}
+                    type={this.state.frontCamera ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back}
                     flashMode={RNCamera.Constants.FlashMode.auto}
                     permissionDialogTitle={'Permission to use camera'}
                     permissionDialogMessage={'We need your permission to use your camera phone'}
@@ -58,7 +71,7 @@ export default class Watson extends Component {
                         onPress={this.takePicture.bind(this, !this.state.modalVisible)}
                         style = {styles.capture}
                     >
-                        <Text style={{fontSize: 15}}> Watson </Text>
+                        <Icon name='album' size={50}/>
                     </TouchableOpacity>
 
                 </View>                
@@ -67,12 +80,12 @@ export default class Watson extends Component {
                     modalVisible={this.state.modalVisible}
                     modalCtrl={this.setModalVisible.bind(this)}
                     currentPic={this.state.currentPic} 
-                    predictions={predictions}
+                    predictions={this.state.predictionData}
                 />
 
                 {this.state.animating && 
                 <View style={styles.loading}>
-                    <Text style={{paddingBottom: 10, fontSize: 18}}>loading...</Text>
+                    <Text style={{paddingBottom: 10, fontSize: 18}}>classifying...</Text>
                     <ActivityIndicator 
                         size='large'
                         color='#000'/>
@@ -81,6 +94,14 @@ export default class Watson extends Component {
             </View>
         );
     };    
+
+    changeCamera() {
+        this.setState({frontCamera: !this.state.frontCamera});
+    };
+
+    detectFaces() {
+        this.setState({faces: !this.state.faces});
+    };
 
     setModalVisible() {
         this.predictions = [];
@@ -96,7 +117,7 @@ export default class Watson extends Component {
         this.setState({animating: !this.state.animating});
 
         if (this.camera) {
-            const options = { quality: 0.3, base64: true };
+            const options = { quality: 0.3 };
             const pic = await this.camera.takePictureAsync(options);      
             
             const data = new FormData();      
@@ -104,14 +125,17 @@ export default class Watson extends Component {
                 uri: pic.uri,
                 type: `image/${pic.type}`, 
                 name: `${pic.uri}`
-            });
-        
-            Classify.getClassification(data)
-                .then(res => res.json())
+            });            
+
+            let promise = this.state.faces 
+                ? await DetectFaces.getFaceClassification(data) 
+                : await ClassifyGeneric.getClassification(data);
+
+            promise.json()
                     .then(d => this.setState({
-                        predictionData: d, 
-                        modalVisible: !this.state.modalVisible, 
-                        currentPic: pic.uri}))
+                            predictionData: d, 
+                            modalVisible: !this.state.modalVisible, 
+                            currentPic: pic.uri}))
                     .catch(err => console.log("error in watson prediction post:", err));
         }
     };
@@ -120,9 +144,17 @@ export default class Watson extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        backgroundColor: 'black',
-      },
+        flexDirection: 'column',                  
+    },
+    topTouchablesContainer: {
+        marginTop: 30,
+        paddingBottom: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
+        flexDirection: 'row',
+        flex: 0,
+        justifyContent: 'space-between'
+    },
     preview: {
         flex: 1,
         justifyContent: 'flex-end',
@@ -132,10 +164,11 @@ const styles = StyleSheet.create({
         flex: 0,
         backgroundColor: '#fff',
         borderRadius: 5,
-        padding: 15,
+        borderColor: 'black',
+        padding: 5,
         paddingHorizontal: 20,
         alignSelf: 'center',
-        margin: 20
+        margin: 10        
     },
     response: {
         flex: 0,
@@ -163,5 +196,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F5FCFF88'
-      }
+      },    
 });
