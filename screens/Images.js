@@ -12,10 +12,13 @@ import {
     Image,
     TouchableOpacity } from 'react-native'; 
 import { List, ListItem } from 'react-native-elements';    
+// import { MapView } from 'react-native-maps';
 import UserImage from '../components/UserImage';
 import ClassifyGeneric from '../actions/ClassifyGeneric';
 import PredictionModal from '../components/PredictionModal';
 import ImagePrediction from '../components/ImagePrediction';
+
+const { width, height } = Dimensions.get('window');
 
 export default class Images extends Component {
 
@@ -32,7 +35,7 @@ export default class Images extends Component {
 
     componentDidMount = () => {
         CameraRoll.getPhotos({
-            first: 20,
+            first: 200,
             assetType: 'Photos',
         })
         .then(r => {
@@ -47,29 +50,33 @@ export default class Images extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={[material.title, styles.header]}>Select an image to send to Watson</Text>                            
-                    <ScrollView>                        
-                    {this.state.photos.map((pic, key) => {
-                        return (
-                            <TouchableOpacity 
-                                onPress={() => this.classify(pic.node.image)} 
-                                key={key}>
-                                <Image
-                                    key={key}
-                                    style={styles.img}
-                                    source={{ uri: pic.node.image.uri }}                                
-                                />
-                            </TouchableOpacity>
-                        );
-                    })}
-                </ScrollView>
+                {/* <MapView /> */}
+                <ScrollView contentContainerStyle={styles.scrollContainer}>                        
+                {this.state.photos.map((pic, key) => {
+                    return (
+                        <TouchableOpacity 
+                            onPress={() => this.classify(pic.node.image)} 
+                            key={key}>
+                            <Image
+                                key={key}
+                                style={styles.img}
+                                source={{ uri: pic.node.image.uri }}                                
+                            />
+                            <TouchableOpacity
+                            >
+                            <Text style={[material.title, {alignSelf: 'center'}]}>Map</Text>
+                        </TouchableOpacity>
+                        </TouchableOpacity>                        
+                    );
+                })}
+            </ScrollView>
 
-                <PredictionModal
-                    modalVisible={this.state.modalVisible}
-                    modalCtrl={this.setModalVisible.bind(this)}
-                    currentPic={this.state.currentPic} 
-                    predictions={this.state.predictionData}
-                />    
+            <PredictionModal
+                modalVisible={this.state.modalVisible}
+                modalCtrl={this.setModalVisible.bind(this)}
+                currentPic={this.state.currentPic} 
+                predictions={this.state.predictionData}
+            />    
             
             {this.state.animating && 
                 <View style={styles.loading}>
@@ -83,6 +90,10 @@ export default class Images extends Component {
         );
     };
     
+    viewImgDetail = (img) => {
+    	this.props.navigation.navigate('ImageDetails', { ...img });
+    };
+
     classify = (pic) => {
         this.setState({animating: !this.state.animating});
         
@@ -118,16 +129,22 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: 35,
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
+        // flexDirection: 'column',
+        // justifyContent: 'center',
+        // alignItems: 'center'        
     },
+    scrollContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+      },
     header: {        
         paddingBottom: 10,
     },
     img: {
-        width: Dimensions.get('window').width,
-        height: 300
+        // width: Dimensions.get('window').width,
+        // height: 300
+        width: width / 2,
+        height: width / 2
     },
     loading: {
         position: 'absolute',
