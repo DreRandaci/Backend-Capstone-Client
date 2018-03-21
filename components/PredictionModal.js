@@ -24,20 +24,17 @@ export default class PredictionModal extends Component {
     render() { 
         
         const predictions = [].concat(this.props.predictions)
-            .sort((a, b) => b.score > a.score)
-                .map((val, key) => {
-                    if (!val.age) {
-                        return <ImagePrediction
-                            key={key} 
-                            keyVal={key} 
-                            val={val} />
-                    } else {
-                        return <UrlPrediction
-                            key={key} 
-                            keyVal={key} 
-                            val={val} />
-                    }
-                });
+            .sort((a, b) => b.age ? b.identity.score > a.identity.score : b.score > a.score
+                ).map((val, key) => 
+                    val.age ? <UrlPrediction
+                                key={key} 
+                                keyVal={key} 
+                                val={val} />
+                            : <ImagePrediction
+                                key={key} 
+                                keyVal={key} 
+                                val={val} />
+                );
         
         return(
             <View>
@@ -54,6 +51,7 @@ export default class PredictionModal extends Component {
                                 predictions={predictions}/>
 
                         </ScrollView>
+                        
                         <View>
                             <Button 
                                 title='Back' 

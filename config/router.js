@@ -10,7 +10,7 @@ export const Tabs = TabNavigator({
         screen: Watson,
         navigationOptions: {
             tabBarLabel: 'Watson',
-            tabBarIcon: ({ tintColor }) => <Icon name={'adjust'} size={35} color={tintColor} />
+            tabBarIcon: ({ tintColor }) => <Icon name={'add-a-photo'} size={35} color={tintColor} />
         },
     },
     Image: {

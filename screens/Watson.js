@@ -11,6 +11,7 @@ import {
 import React, { Component } from 'react';
 import { RNCamera } from 'react-native-camera';
 import { Button, Icon } from 'react-native-elements';
+import { material } from 'react-native-typography';
 import UserImage from '../components/UserImage';
 import PredictionModal from '../components/PredictionModal';
 import ImagePrediction from '../components/ImagePrediction';
@@ -39,15 +40,16 @@ export default class Watson extends Component {
 
                 <View style={styles.topTouchablesContainer}>
                     <TouchableOpacity onPress={this.detectFaces.bind(this)}>
-                        <Text style={{color: this.state.faces ? '#065DD6':'#F5E215'}}>
+                        <Text style={[material.subheading, {color: this.state.faces ? '#065DD6':'#000'}]}>
                             Faces {this.state.faces ? 'On' : 'Off'}
                         </Text>                    
                     </TouchableOpacity>
+                    
+                    <Text style={[material.title, {paddingRight: 35}]}>Watson</Text>
 
                     <TouchableOpacity onPress={this.changeCamera.bind(this)}>
                         <Text style={{color: this.state.frontCamera ? '#065DD6':'#F5E215'}}>
-                            <Icon name="cached" size={30} color='white'/> 
-                            {/* {this.state.frontCamera ? 'Front' : 'Main'} Camera */}
+                            <Icon name="cached" size={30} color='black'/> 
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -69,7 +71,7 @@ export default class Watson extends Component {
                         onPress={this.takePicture.bind(this, !this.state.modalVisible)}
                         style = {styles.capture}
                     >
-                        <Text style={{fontSize: 15}}> Watson </Text>
+                        <Icon name='album' size={50}/>
                     </TouchableOpacity>
 
                 </View>                
@@ -127,7 +129,7 @@ export default class Watson extends Component {
 
             let promise = this.state.faces 
                 ? await DetectFaces.getFaceClassification(data) 
-                : ClassifyGeneric.getClassification(data);
+                : await ClassifyGeneric.getClassification(data);
 
             promise.json()
                     .then(d => this.setState({
@@ -142,12 +144,13 @@ export default class Watson extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#000',                
+        flexDirection: 'column',                  
     },
     topTouchablesContainer: {
         marginTop: 30,
-        padding: 10,
+        paddingBottom: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
         flexDirection: 'row',
         flex: 0,
         justifyContent: 'space-between'
@@ -161,10 +164,11 @@ const styles = StyleSheet.create({
         flex: 0,
         backgroundColor: '#fff',
         borderRadius: 5,
-        padding: 15,
+        borderColor: 'black',
+        padding: 5,
         paddingHorizontal: 20,
         alignSelf: 'center',
-        margin: 20        
+        margin: 10        
     },
     response: {
         flex: 0,
@@ -192,10 +196,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F5FCFF88'
-      },
-    faces: {
-        color: 'white', 
-        marginTop: 30, 
-        marginLeft: 15,
-    }
+      },    
 });
