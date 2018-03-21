@@ -16,18 +16,20 @@ export default class UrlPrediction extends Component {
             <View key={this.props.keyVal} style={styles.prediction}>
             
                 <View>
-                    <Text 
-                        style={material.subheading}>Identity - {this.props.val.identity.name}, confidence: {Math.round(this.props.val.identity.score*100)}%
-                    </Text>
+                    {this.props.val.identity != null &&
+                        <Text 
+                            style={material.subheading}>Identity - {this.props.val.identity.name}, confidence: {Math.round(this.props.val.identity.score*100)}%
+                        </Text>}
                     <Text 
                         style={material.subheading}>Age - min: {this.props.val.age.min}, max: {this.props.val.age.max}, confidence: {Math.round(this.props.val.age.score*100)}%
                     </Text>
                     <Text 
                         style={material.subheading}>Gender - {this.props.val.gender.gender}, confidence: {Math.round(this.props.val.gender.score*100)}%
                     </Text>
-                    <Text 
-                        style={material.caption}>Type Hierarchy: {this.props.val.identity.type_hierarchy != null ? this.props.val.identity.type_hierarchy : 'default'}
-                    </Text>
+                    {this.props.val.identity != null &&
+                        <Text 
+                            style={material.caption}>Type Hierarchy: {this.props.val.identity.type_hierarchy != null ? this.props.val.identity.type_hierarchy : 'default'}
+                        </Text>}
                 </View>
                 <View style={styles.linkContainer}>
                     <Text 

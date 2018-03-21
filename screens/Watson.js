@@ -97,7 +97,7 @@ export default class Watson extends Component {
 
     changeCamera() {
         this.setState({frontCamera: !this.state.frontCamera});
-    }
+    };
 
     detectFaces() {
         this.setState({faces: !this.state.faces});
@@ -117,7 +117,7 @@ export default class Watson extends Component {
         this.setState({animating: !this.state.animating});
 
         if (this.camera) {
-            const options = { quality: 0.3, base64: true };
+            const options = { quality: 0.3 };
             const pic = await this.camera.takePictureAsync(options);      
             
             const data = new FormData();      
