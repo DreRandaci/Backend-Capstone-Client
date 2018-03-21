@@ -12,7 +12,7 @@ import {
     Image,
     TouchableOpacity } from 'react-native'; 
 import { List, ListItem } from 'react-native-elements';    
-// import { MapView } from 'react-native-maps';
+import MapView  from 'react-native-maps';
 import UserImage from '../components/UserImage';
 import ClassifyGeneric from '../actions/ClassifyGeneric';
 import PredictionModal from '../components/PredictionModal';
@@ -49,9 +49,19 @@ export default class Images extends Component {
     render() {
 
         return (
-            <View style={styles.container}>
-                {/* <MapView /> */}
-                <ScrollView contentContainerStyle={styles.scrollContainer}>                        
+            <View style={styles.container}>                            
+
+                <MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: 37.78825,
+                        longitude: -122.4324,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                />
+
+                {/* <ScrollView contentContainerStyle={styles.scrollContainer}>         
                 {this.state.photos.map((pic, key) => {
                     return (
                         <TouchableOpacity 
@@ -64,7 +74,7 @@ export default class Images extends Component {
                             />
                             <TouchableOpacity
                             >
-                            <Text style={[material.title, {alignSelf: 'center'}]}>Map</Text>
+                            <Text style={[material.subheading, {alignSelf: 'center'}]}>Map</Text>
                         </TouchableOpacity>
                         </TouchableOpacity>                        
                     );
@@ -84,7 +94,7 @@ export default class Images extends Component {
                     <ActivityIndicator 
                         size='large'
                         color='#000'/>
-                </View>}
+                </View>} */}
 
             </View>            
         );
@@ -155,5 +165,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F5FCFF88'
-    }
+    },
+    map: {
+        width: width,
+        height: 250,
+    },
 });

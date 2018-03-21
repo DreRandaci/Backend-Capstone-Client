@@ -25,6 +25,8 @@ target 'Watson' do
     'RCTWebSocket',
   ]
 
+  pod 'Google-Maps-iOS-Utils'
+  
   pod 'react-native-maps', path: rn_maps_path
 
   pod 'GoogleMaps'  # Remove this line if you don't want to support Google Maps on iOS
