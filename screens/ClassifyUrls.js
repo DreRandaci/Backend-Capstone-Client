@@ -29,7 +29,7 @@ export default class ClassifyUrls extends Component {
     render() {
         return(
             <View style={styles.container}>                
-                <FormLabel>URL (must contain a .jpg or .png)</FormLabel>
+                <FormLabel>URL (must contain a .jpg or .png extension)</FormLabel>
                 <FormInput
                     onChangeText={(url) => this.setState({url})} 
                     inputStyle={{paddingLeft: 5}}
@@ -43,7 +43,7 @@ export default class ClassifyUrls extends Component {
                         iconType='material'
                         checkedIcon='check'
                         uncheckedIcon='add'
-                        checkedColor='gray'
+                        checkedColor='#065DD6'
                         checked={this.state.detectFaces}
                     />
                 
@@ -52,6 +52,7 @@ export default class ClassifyUrls extends Component {
                         raised 
                         color='white'
                         backgroundColor='#065DD6'
+                        buttonStyle={{marginTop: 10}}
                         onPress={this.classifyUrl.bind(this)} 
                         >
                     </Button>
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttonContainer: {
-        padding: 8,
+        padding: 20,
     },
     loading: {
         position: 'absolute',
