@@ -49,26 +49,23 @@ export default class PredictionModal extends Component {
 
                         </ScrollView>
                         
-                        <View>
-                            <Button 
-                                title='Back' 
-                                raised 
-                                color='black'
-                                backgroundColor='#fff'
-                                buttonStyle={styles.button}
+                        <View style={styles.btnContainer}>
+                            <TouchableOpacity                                
                                 onPress={this.modalCtrl} 
-                                >
-                            </Button>
+                            >
+                                <Text
+                                    style={styles.button}
+                                >Back</Text>
+                            </TouchableOpacity>
                             {this.props.cameraRollView &&
-                            <Button
-                                title='Save'
-                                raised 
-                                color='black'
-                                backgroundColor='#fff'
-                                buttonStyle={styles.button}
+                            <TouchableOpacity
                                 onPress={this.saveToCameraRoll.bind(this)} 
-                                >
-                            </Button>}
+                            >
+                                <Text
+                                    style={styles.button}                                    
+                                >Save</Text>
+                            </TouchableOpacity>
+                        }
                         </View>
                 </Modal> 
 
@@ -91,10 +88,12 @@ const styles = StyleSheet.create({
         marginTop: 25,
         marginBottom: 25
     },
+    btnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        paddingBottom: 12,
+    },
     button: {
-        borderRadius: 50, 
-        marginLeft: 0, 
-        marginRight: 0, 
-        marginBottom: 10,
+        fontSize: 16
     },
 });

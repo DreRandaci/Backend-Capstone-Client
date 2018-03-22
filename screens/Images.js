@@ -76,22 +76,23 @@ export default class Images extends Component {
                                     <TouchableOpacity 
                                         onPress={() => this.classify(pic.node.image)} 
                                         >  
-
                                         <Icon 
                                             name='settings-backup-restore' 
                                             size={30} 
-                                            color='#CB7C43'
+                                            color='#858585'
                                         />
+                                        <Text>Classify</Text>
                                     </TouchableOpacity>
                                     
                                     <TouchableOpacity
                                         onPress={() => this.viewImgDetail(pic.node)}
-                                    >                                        
+                                        >                                        
                                         <Icon 
                                             name='explore' 
                                             size={30} 
-                                            color='#0F64EE'
+                                            color='#858585'
                                         />
+                                        <Text>Map</Text>
                                     </TouchableOpacity>  
                                 </View>
                                 

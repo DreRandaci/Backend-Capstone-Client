@@ -4,7 +4,10 @@ import {
     ActivityIndicator,
     Text,
     View,
-    StyleSheet } from 'react-native';
+    StyleSheet,
+    TextInput,
+    Keyboard,
+    TouchableWithoutFeedback } from 'react-native';
 import { FormLabel, FormInput, Button, CheckBox } from 'react-native-elements'
 import ClassifyUrl from '../actions/ClassifyGenericUrl';
 import DetectFacesUrl from '../actions/DetectFacesUrl';
@@ -28,53 +31,62 @@ export default class ClassifyUrls extends Component {
 
     render() {
         return(
-            <View style={styles.container}>                
-                <FormLabel>URL (must contain a .jpg, .jpeg or .png extension)</FormLabel>
-                <FormInput
-                    onChangeText={(url) => this.setState({url})} 
-                    inputStyle={{paddingLeft: 5}}
-                    value={this.state.url} 
-                />
-                <View style={styles.buttonContainer}>
-                    <CheckBox
-                        onPress={this.toggleDetectFaces.bind(this)}
-                        center
-                        title='Detect Faces?'
-                        iconType='material'
-                        checkedIcon='check'
-                        uncheckedIcon='add'
-                        checkedColor='#065DD6'
-                        checked={this.state.detectFaces}
+            <TouchableWithoutFeedback 
+                accessible={false}
+                onPress={Keyboard.dismiss}>
+                <View style={styles.container}>                
+                    <FormLabel labelStyle={{fontSize:16}}>Paste a URL Here</FormLabel>
+
+                    <TextInput                    
+                        autoFocus={true}
+                        keyboardType={'url'}
+                        style={{textAlign: 'center', paddingTop: 10}}
+                        placeholder={'contains a .jpg, .jpeg or .png extension'}  
+                        value={this.state.url}                   
+                        onChangeText={(url) => this.setState({url})} 
                     />
+
+                    <View style={styles.buttonContainer}>
+                        <CheckBox
+                            onPress={this.toggleDetectFaces.bind(this)}
+                            center
+                            title='Detect Faces?'
+                            iconType='material'
+                            checkedIcon='check'
+                            uncheckedIcon='add'
+                            checkedColor='#065DD6'
+                            checked={this.state.detectFaces}
+                        />
+                    
+                        <Button 
+                            title='Classify' 
+                            raised 
+                            color='white'
+                            backgroundColor='#065DD6'
+                            buttonStyle={{marginTop: 10}}
+                            onPress={this.classifyUrl.bind(this)} 
+                            >
+                        </Button>
+                    </View>
+
+                    <PredictionModal
+                        cameraRollView={false}
+                        modalVisible={this.state.modalVisible}
+                        modalCtrl={this.setModalVisible.bind(this)}
+                        currentPic={this.state.currentPic} 
+                        predictions={this.state.predictionData}
+                    />    
                 
-                    <Button 
-                        title='Classify' 
-                        raised 
-                        color='white'
-                        backgroundColor='#065DD6'
-                        buttonStyle={{marginTop: 10}}
-                        onPress={this.classifyUrl.bind(this)} 
-                        >
-                    </Button>
+                {this.state.animating && 
+                    <View style={styles.loading}>
+                        <Text style={{paddingBottom: 10, fontSize: 18}}>classifying...</Text>
+                        <ActivityIndicator 
+                            size='large'
+                            color='#000'/>
+                    </View>}
+
                 </View>
-
-                <PredictionModal
-                    cameraRollView={false}
-                    modalVisible={this.state.modalVisible}
-                    modalCtrl={this.setModalVisible.bind(this)}
-                    currentPic={this.state.currentPic} 
-                    predictions={this.state.predictionData}
-                />    
-            
-            {this.state.animating && 
-                <View style={styles.loading}>
-                    <Text style={{paddingBottom: 10, fontSize: 18}}>classifying...</Text>
-                    <ActivityIndicator 
-                        size='large'
-                        color='#000'/>
-                </View>}
-
-            </View>
+            </TouchableWithoutFeedback>
         );
     }
 
