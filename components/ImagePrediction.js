@@ -7,7 +7,7 @@ import {
     Text,
     Linking,
     TouchableOpacity } from 'react-native'; 
-import { Icon } from 'react-native-elements';
+import { Icon, List, ListItem } from 'react-native-elements';
 
 export default class ImagePrediction extends Component {
 
@@ -16,18 +16,31 @@ export default class ImagePrediction extends Component {
 
             <View key={this.props.keyVal} style={styles.prediction}>
             
-                <View>
-                    <Text style={material.subheading}>Class: {this.props.val.class}</Text>
-                    <Text style={material.subheading}>Confidence Score: {Math.round(this.props.val.score*100)}%</Text>
-                    <Text style={material.caption}>Type Hierarchy: {this.props.val.type_hierarchy != null ? this.props.val.type_hierarchy : this.props.val.class}</Text>
-                </View>
+                <List>
+                    <ListItem 
+                        hideChevron={true}   
+                        title={`Class: ${this.props.val.class}`} 
+                    />
+                    <ListItem 
+                        hideChevron={true}   
+                        title={`Confidence Score: ${Math.round(this.props.val.score*100)}%`} 
+                    />
+                    <ListItem 
+                        hideChevron={true}   
+                        title={`Type Hierarchy: ${this.props.val.type_hierarchy != null 
+                            ? this.props.val.type_hierarchy 
+                            : '/' + this.props.val.class}`} 
+                    />
+                </List>
                 <View style={styles.linkContainer}>               
                     <Icon
+                        iconStyle={styles.googleLink}
                         type='font-awesome'
                         name='google'
                         onPress={() => Linking.openURL(`https://www.google.com/search?q=${this.props.val.class}`)}
                     />
                     <Icon
+                        iconStyle={styles.wikiLink}
                         type='font-awesome'
                         name='wikipedia-w'
                         onPress={() => Linking.openURL(`https://en.m.wikipedia.org/w/index.php?search=${this.props.val.class}&title=Special:Search&fulltext=1`)}
@@ -50,10 +63,15 @@ const styles = StyleSheet.create({
     linkContainer: {
         flexDirection: 'row',
         flex: 1,
-        justifyContent: 'space-between'
-    },
-    link: {
+        justifyContent: 'flex-start',
         paddingTop: 15,
-        color: 'blue',        
+    },
+    wikiLink: {
+        color: 'black', 
+        paddingLeft: 15,               
+    },
+    googleLink: {
+        color: '#d62d20',
+        paddingLeft: 22,       
     }
 });
