@@ -34,7 +34,7 @@ export default class Images extends Component {
 
     componentDidMount = () => {
         CameraRoll.getPhotos({
-            first: 200,
+            first: 100,
             assetType: 'Photos',
         })
         .then(r => {
@@ -43,33 +43,55 @@ export default class Images extends Component {
         .catch((err) => {
             console.log('error in componentDidMount loading users camera roll:', err)
         });
-    };    
-
-    render() {
+    };
+    
+    componentDidUpdate() {
+        CameraRoll.getPhotos({
+            first: 100,
+            assetType: 'Photos',
+        })
+        .then(r => {
+            this.setState({ photos: r.edges });
+        })
+        .catch((err) => {
+            console.log('error in componentDidMount loading users camera roll:', err)
+        });
+    };
+    
+    render() {        
 
         return (
             <View style={styles.container}>                                            
                 <ScrollView contentContainerStyle={styles.scrollContainer}>         
                     {this.state.photos.map((pic, key) => {
                         return (
-                            <View>
-                                <Image
-                                    key={key}
-                                    style={styles.img}
-                                    source={{ uri: pic.node.image.uri }}
-                                />
-                                <View style={styles.imageView}>
+                            <View key={key}>
+                                <View style={{alignItems: 'center'}}>
+                                    <Image
+                                        style={styles.img}
+                                        source={{ uri: pic.node.image.uri }}
+                                    />
+                                </View>
+                                <View style={styles.imageActions}>
                                     <TouchableOpacity 
                                         onPress={() => this.classify(pic.node.image)} 
-                                        key={key}>  
+                                        >  
 
-                                        <Icon name='settings-backup-restore' size={30} color='gray'/>
+                                        <Icon 
+                                            name='settings-backup-restore' 
+                                            size={30} 
+                                            color='gray'
+                                        />
                                     </TouchableOpacity>
                                     
                                     <TouchableOpacity
                                         onPress={() => this.viewImgDetail(pic.node)}
                                     >                                        
-                                        <Icon name='explore' size={30} color='gray'/>
+                                        <Icon 
+                                            name='explore' 
+                                            size={30} 
+                                            color='gray'
+                                        />
                                     </TouchableOpacity>  
                                 </View>
                                 
@@ -137,15 +159,14 @@ const styles = StyleSheet.create({
         flex: 1,        
     },
     scrollContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-      },
+        flexDirection: 'column',        
+    },
     header: {        
         paddingBottom: 10,
     },
     img: {
-        width: Dimensions.get('window').width,
-        height: 300       
+        width: Dimensions.get('window').width - 2,
+        height: 300,
     },
     loading: {
         position: 'absolute',
@@ -157,16 +178,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#F5FCFF88'
     },
-    imageView: {
+    imageActions: {
         flex: 1, 
         justifyContent: 'space-around', 
         flexDirection: 'row',
-        paddingBottom: 10,
-        paddingTop: 10,
+        paddingBottom: 5,
+        paddingTop: 5,
         borderBottomColor: 'gray',
-        borderBottomWidth: 1,
+        borderBottomWidth: 0.5,
         borderTopColor: 'gray',
-        borderTopWidth: 1,
+        borderTopWidth: 0.5,
     },
     imgBorder: {
         borderBottomColor: 'gray',

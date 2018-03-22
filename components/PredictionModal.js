@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { 
     View, 
+    CameraRoll,
     StyleSheet, 
     TouchableOpacity, 
     Text,
@@ -15,11 +16,7 @@ import Watson from '../screens/Watson';
 import ImagePrediction from '../components/ImagePrediction';
 import UrlPrediction from '../components/UrlPrediction';
 
-export default class PredictionModal extends Component {    
-
-    modalCtrl = () => {
-        this.props.modalCtrl();
-    };
+export default class PredictionModal extends Component {        
 
     render() { 
         
@@ -62,11 +59,29 @@ export default class PredictionModal extends Component {
                                 onPress={this.modalCtrl} 
                                 >
                             </Button>
+                            <Button
+                                title='Save'
+                                raised 
+                                color='black'
+                                backgroundColor='#fff'
+                                buttonStyle={styles.button}
+                                onPress={this.saveToCameraRoll.bind(this)} 
+                                >
+                            </Button>
                         </View>
                 </Modal> 
 
             </View>    
         );
+    };
+
+    modalCtrl = () => {
+        this.props.modalCtrl();
+    };
+
+    saveToCameraRoll() {
+        CameraRoll.saveToCameraRoll(this.props.currentPic, 'photo');
+        this.props.modalCtrl();
     };
 };
 
