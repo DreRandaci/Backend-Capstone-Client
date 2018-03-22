@@ -65,10 +65,9 @@ export default class Images extends Component {
                 <ScrollView contentContainerStyle={styles.scrollContainer}>         
                     {this.state.photos.map((pic, key) => {
                         return (
-                            <View>
+                            <View key={key}>
                                 <View style={{alignItems: 'center'}}>
                                     <Image
-                                        key={key}
                                         style={styles.img}
                                         source={{ uri: pic.node.image.uri }}
                                     />
@@ -76,15 +75,23 @@ export default class Images extends Component {
                                 <View style={styles.imageActions}>
                                     <TouchableOpacity 
                                         onPress={() => this.classify(pic.node.image)} 
-                                        key={key}>  
+                                        >  
 
-                                        <Icon name='settings-backup-restore' size={30} color='gray'/>
+                                        <Icon 
+                                            name='settings-backup-restore' 
+                                            size={30} 
+                                            color='gray'
+                                        />
                                     </TouchableOpacity>
                                     
                                     <TouchableOpacity
                                         onPress={() => this.viewImgDetail(pic.node)}
                                     >                                        
-                                        <Icon name='explore' size={30} color='gray'/>
+                                        <Icon 
+                                            name='explore' 
+                                            size={30} 
+                                            color='gray'
+                                        />
                                     </TouchableOpacity>  
                                 </View>
                                 

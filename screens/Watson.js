@@ -119,24 +119,24 @@ export default class Watson extends Component {
         if (this.camera) {
             const options = { quality: 0.4, forceUpOrientation: true };
             const pic = await this.camera.takePictureAsync(options);      
-            
-            const data = new FormData();      
-            data.append('file', {
-                uri: pic.uri,
-                type: `image/${pic.type}`, 
-                name: `${pic.uri}`
-            });            
+            console.log(pic)
+            // const data = new FormData();      
+            // data.append('file', {
+            //     uri: pic.uri,
+            //     type: `image/${pic.type}`, 
+            //     name: `${pic.uri}`
+            // });            
 
-            let promise = this.state.faces 
-                ? await DetectFaces.getFaceClassification(data) 
-                : await ClassifyGeneric.getClassification(data);
+            // let promise = this.state.faces 
+            //     ? await DetectFaces.getFaceClassification(data) 
+            //     : await ClassifyGeneric.getClassification(data);
 
-            promise.json()
-                    .then(d => this.setState({
-                            predictionData: d, 
-                            modalVisible: !this.state.modalVisible, 
-                            currentPic: pic.uri}))
-                    .catch(err => console.log("error in watson prediction post:", err));
+            // promise.json()
+            //         .then(d => this.setState({
+            //                 predictionData: d, 
+            //                 modalVisible: !this.state.modalVisible, 
+            //                 currentPic: pic.uri}))
+            //         .catch(err => console.log("error in watson prediction post:", err));
         }
     };
 };
