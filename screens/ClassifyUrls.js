@@ -29,7 +29,7 @@ export default class ClassifyUrls extends Component {
     render() {
         return(
             <View style={styles.container}>                
-                <FormLabel>URL (must contain a .jpg or .png extension)</FormLabel>
+                <FormLabel>URL (must contain a .jpg, .jpeg or .png extension)</FormLabel>
                 <FormInput
                     onChangeText={(url) => this.setState({url})} 
                     inputStyle={{paddingLeft: 5}}
@@ -93,7 +93,7 @@ export default class ClassifyUrls extends Component {
 
     async classifyUrl() {
         this.setState({animating: !this.state.animating});
-        if (this.state.url) {            
+        if (this.state.url.includes('.jpg') || this.state.url.includes('.jpeg') || this.state.url.includes('.png')) {            
             
             let promise = 
                 this.state.detectFaces 
