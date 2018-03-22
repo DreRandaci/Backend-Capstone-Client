@@ -57,8 +57,8 @@ export default class Images extends Component {
             console.log('error in componentDidMount loading users camera roll:', err)
         });
     };
-
-    render() {
+    
+    render() {        
 
         return (
             <View style={styles.container}>                                            
