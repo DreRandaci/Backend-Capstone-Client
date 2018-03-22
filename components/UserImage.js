@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { Card, Text } from 'react-native-elements'; 
-
+import { material } from 'react-native-typography';
 
 export default class UserImage extends Component {
 
@@ -15,7 +15,8 @@ export default class UserImage extends Component {
             <View>            
                 <Card 
                     image={{uri: this.props.source}}
-                    title='Results'>
+                    title='Results'
+                >
                     <ScrollView>
                         {this.props.predictions}
                     </ScrollView>
