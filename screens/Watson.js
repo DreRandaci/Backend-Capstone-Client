@@ -117,7 +117,7 @@ export default class Watson extends Component {
         this.setState({animating: !this.state.animating});
 
         if (this.camera) {
-            const options = { quality: 0.3 };
+            const options = { quality: 0.4 };
             const pic = await this.camera.takePictureAsync(options);      
             
             const data = new FormData();      
@@ -169,13 +169,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         alignSelf: 'center',
         margin: 10        
-    },
-    response: {
-        flex: 0,
-        flexDirection: 'column',
-        backgroundColor: '#fff',
-        fontSize: 20,
-        alignSelf: 'center',
     },
     button: {
         borderRadius: 0, 

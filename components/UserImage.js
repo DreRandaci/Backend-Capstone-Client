@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
-import { Card } from 'react-native-elements'; 
+import { Card, Text } from 'react-native-elements'; 
 
 
 export default class UserImage extends Component {
