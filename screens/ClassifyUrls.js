@@ -109,6 +109,7 @@ export default class ClassifyUrls extends Component {
                         .catch(err => console.log("error in classify url:", err));
         } else {
             alert("URL is invalid. Make sure it ends in a .jpg or .png format");
+            this.setState({animating: false});
         }
     };
 
