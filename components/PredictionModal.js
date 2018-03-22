@@ -59,6 +59,7 @@ export default class PredictionModal extends Component {
                                 onPress={this.modalCtrl} 
                                 >
                             </Button>
+                            {this.props.cameraRollView &&
                             <Button
                                 title='Save'
                                 raised 
@@ -67,7 +68,7 @@ export default class PredictionModal extends Component {
                                 buttonStyle={styles.button}
                                 onPress={this.saveToCameraRoll.bind(this)} 
                                 >
-                            </Button>
+                            </Button>}
                         </View>
                 </Modal> 
 

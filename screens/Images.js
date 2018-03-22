@@ -101,6 +101,7 @@ export default class Images extends Component {
                 </ScrollView>
 
             <PredictionModal
+                cameraRollView={false}
                 modalVisible={this.state.modalVisible}
                 modalCtrl={this.setModalVisible.bind(this)}
                 currentPic={this.state.currentPic} 
