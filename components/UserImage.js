@@ -16,9 +16,7 @@ export default class UserImage extends Component {
                 <Card 
                     image={{uri: this.props.source}}
                     title='Results'
-                    // titleStyle={[material.title, {color: '#CB7C43'}]}
-                    // wrapperStyle={{backgroundColor: '#CB7C43'}}
-                    >
+                >
                     <ScrollView>
                         {this.props.predictions}
                     </ScrollView>
