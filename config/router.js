@@ -17,7 +17,7 @@ export const Details = StackNavigator({
     ImageDetails: {
         screen: ImageDetails,
         navigationOptions: ({ navigation }) => ({
-            title: ({state}) => `${state.params} ${state.params}`,
+            title: `Map`,
         }),
     }
 });

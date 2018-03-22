@@ -11,8 +11,7 @@ import {
     Text,
     Image,
     TouchableOpacity } from 'react-native'; 
-import { List, ListItem } from 'react-native-elements';    
-import MapView  from 'react-native-maps';
+import { Icon } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import ClassifyGeneric from '../actions/ClassifyGeneric';
 import PredictionModal from '../components/PredictionModal';
@@ -49,37 +48,37 @@ export default class Images extends Component {
     render() {
 
         return (
-            <View style={styles.container}>                            
+            <View style={styles.container}>                                            
+                <ScrollView contentContainerStyle={styles.scrollContainer}>         
+                    {this.state.photos.map((pic, key) => {
+                        return (
+                            <View>
+                                <View style={styles.imgBorder}> 
+                                    <Image
+                                        key={key}
+                                        style={styles.img}
+                                        source={{ uri: pic.node.image.uri }}
+                                    />
+                                </View>
+                                <View style={styles.imageView}>
+                                    <TouchableOpacity 
+                                        onPress={() => this.classify(pic.node.image)} 
+                                        key={key}>  
 
-                <MapView
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                />
-
-                {/* <ScrollView contentContainerStyle={styles.scrollContainer}>         
-                {this.state.photos.map((pic, key) => {
-                    return (
-                        <TouchableOpacity 
-                            onPress={() => this.classify(pic.node.image)} 
-                            key={key}>
-                            <Image
-                                key={key}
-                                style={styles.img}
-                                source={{ uri: pic.node.image.uri }}                                
-                            />
-                            <TouchableOpacity
-                            >
-                            <Text style={[material.subheading, {alignSelf: 'center'}]}>Map</Text>
-                        </TouchableOpacity>
-                        </TouchableOpacity>                        
-                    );
-                })}
-            </ScrollView>
+                                        <Icon name='settings-backup-restore' size={30} color='gray'/>
+                                    </TouchableOpacity>
+                                    
+                                    <TouchableOpacity
+                                        onPress={() => this.viewImgDetail(pic.node.image)}
+                                    >                                        
+                                        <Icon name='explore' size={30} color='gray'/>
+                                    </TouchableOpacity>  
+                                </View>
+                                
+                            </View>                      
+                        );
+                    })}
+                </ScrollView>
 
             <PredictionModal
                 modalVisible={this.state.modalVisible}
@@ -94,14 +93,14 @@ export default class Images extends Component {
                     <ActivityIndicator 
                         size='large'
                         color='#000'/>
-                </View>} */}
+                </View>}
 
             </View>            
         );
     };
     
     viewImgDetail = (img) => {
-    	this.props.navigation.navigate('ImageDetails', { ...img });
+    	this.props.navigation.navigate('ImageDetails', img);
     };
 
     classify = (pic) => {
@@ -145,16 +144,14 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
       },
     header: {        
         paddingBottom: 10,
     },
     img: {
-        // width: Dimensions.get('window').width,
-        // height: 300
-        width: width / 2,
-        height: width / 2
+        width: Dimensions.get('window').width,
+        height: 300       
     },
     loading: {
         position: 'absolute',
@@ -166,8 +163,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#F5FCFF88'
     },
-    map: {
-        width: width,
-        height: 250,
+    imageView: {
+        flex: 1, 
+        justifyContent: 'space-around', 
+        flexDirection: 'row',
+        paddingBottom: 10,
+        paddingTop: 10,
     },
+    imgBorder: {
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        borderTopColor: 'gray',
+        borderTopWidth: 1,
+    }
 });
