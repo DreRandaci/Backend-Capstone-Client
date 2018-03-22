@@ -34,7 +34,7 @@ export default class Images extends Component {
 
     componentDidMount = () => {
         CameraRoll.getPhotos({
-            first: 200,
+            first: 100,
             assetType: 'Photos',
         })
         .then(r => {
@@ -43,7 +43,20 @@ export default class Images extends Component {
         .catch((err) => {
             console.log('error in componentDidMount loading users camera roll:', err)
         });
-    };    
+    };
+    
+    componentDidUpdate() {
+        CameraRoll.getPhotos({
+            first: 100,
+            assetType: 'Photos',
+        })
+        .then(r => {
+            this.setState({ photos: r.edges });
+        })
+        .catch((err) => {
+            console.log('error in componentDidMount loading users camera roll:', err)
+        });
+    };
 
     render() {
 

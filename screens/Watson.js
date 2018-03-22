@@ -117,7 +117,7 @@ export default class Watson extends Component {
         this.setState({animating: !this.state.animating});
 
         if (this.camera) {
-            const options = { quality: 0.4 };
+            const options = { quality: 0.4, forceUpOrientation: true };
             const pic = await this.camera.takePictureAsync(options);      
             
             const data = new FormData();      
