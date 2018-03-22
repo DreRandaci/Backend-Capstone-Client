@@ -80,7 +80,7 @@ export default class Images extends Component {
                                         <Icon 
                                             name='settings-backup-restore' 
                                             size={30} 
-                                            color='gray'
+                                            color='#CB7C43'
                                         />
                                     </TouchableOpacity>
                                     
@@ -90,7 +90,7 @@ export default class Images extends Component {
                                         <Icon 
                                             name='explore' 
                                             size={30} 
-                                            color='gray'
+                                            color='#0F64EE'
                                         />
                                     </TouchableOpacity>  
                                 </View>
