@@ -40,7 +40,7 @@ export default class Watson extends Component {
 
                 <View style={styles.topTouchablesContainer}>
                     <TouchableOpacity onPress={this.detectFaces.bind(this)}>
-                        <Text style={[material.subheading, {color: this.state.faces ? '#065DD6':'#000'}]}>
+                        <Text style={[material.subheading, {color: this.state.faces ? '#065DD6':'#000', marginTop:4}]}>
                             Faces {this.state.faces ? 'On' : 'Off'}
                         </Text>                    
                     </TouchableOpacity>

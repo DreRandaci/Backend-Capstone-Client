@@ -1,20 +1,37 @@
 import React from 'react';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator } from 'react-navigation';
 import Watson from '../screens/Watson';
 import Images from '../screens/Images';
+import ImageDetails from '../screens/ImageDetails';
 import ClassifyUrls from '../screens/ClassifyUrls';
-import { Icon, Badge } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 
-export const Tabs = TabNavigator({
+
+export const Details = StackNavigator({
+    Images: {
+        screen: Images,
+        navigationOptions: ({ navigation }) => ({
+            title: `Images`,
+        }),
+    },
+    ImageDetails: {
+        screen: ImageDetails,
+        navigationOptions: ({ navigation }) => ({
+            title: `Map`,
+        }),
+    }
+});
+
+export const Tabs = TabNavigator({    
     Watson: {
         screen: Watson,
         navigationOptions: {
             tabBarLabel: 'Watson',
-            tabBarIcon: ({ tintColor }) => <Icon name={'add-a-photo'} size={35} color={tintColor} />
+            tabBarIcon: ({ tintColor }) => <Icon name='add-a-photo' size={35} color={tintColor} />                                    
         },
     },
     Image: {
-        screen: Images,
+        screen: Details,
         navigationOptions: {
             tabBarLabel: 'Images',
             tabBarIcon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />

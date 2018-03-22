@@ -11,11 +11,13 @@ import {
     Text,
     Image,
     TouchableOpacity } from 'react-native'; 
-import { List, ListItem } from 'react-native-elements';    
+import { Icon } from 'react-native-elements';
 import UserImage from '../components/UserImage';
 import ClassifyGeneric from '../actions/ClassifyGeneric';
 import PredictionModal from '../components/PredictionModal';
 import ImagePrediction from '../components/ImagePrediction';
+
+const { width, height } = Dimensions.get('window');
 
 export default class Images extends Component {
 
@@ -32,7 +34,7 @@ export default class Images extends Component {
 
     componentDidMount = () => {
         CameraRoll.getPhotos({
-            first: 20,
+            first: 200,
             assetType: 'Photos',
         })
         .then(r => {
@@ -46,30 +48,42 @@ export default class Images extends Component {
     render() {
 
         return (
-            <View style={styles.container}>
-                <Text style={[material.title, styles.header]}>Select an image to send to Watson</Text>                            
-                    <ScrollView>                        
+            <View style={styles.container}>                                            
+                <ScrollView contentContainerStyle={styles.scrollContainer}>         
                     {this.state.photos.map((pic, key) => {
                         return (
-                            <TouchableOpacity 
-                                onPress={() => this.classify(pic.node.image)} 
-                                key={key}>
+                            <View>
                                 <Image
                                     key={key}
                                     style={styles.img}
-                                    source={{ uri: pic.node.image.uri }}                                
+                                    source={{ uri: pic.node.image.uri }}
                                 />
-                            </TouchableOpacity>
+                                <View style={styles.imageView}>
+                                    <TouchableOpacity 
+                                        onPress={() => this.classify(pic.node.image)} 
+                                        key={key}>  
+
+                                        <Icon name='settings-backup-restore' size={30} color='gray'/>
+                                    </TouchableOpacity>
+                                    
+                                    <TouchableOpacity
+                                        onPress={() => this.viewImgDetail(pic.node)}
+                                    >                                        
+                                        <Icon name='explore' size={30} color='gray'/>
+                                    </TouchableOpacity>  
+                                </View>
+                                
+                            </View>                      
                         );
                     })}
                 </ScrollView>
 
-                <PredictionModal
-                    modalVisible={this.state.modalVisible}
-                    modalCtrl={this.setModalVisible.bind(this)}
-                    currentPic={this.state.currentPic} 
-                    predictions={this.state.predictionData}
-                />    
+            <PredictionModal
+                modalVisible={this.state.modalVisible}
+                modalCtrl={this.setModalVisible.bind(this)}
+                currentPic={this.state.currentPic} 
+                predictions={this.state.predictionData}
+            />    
             
             {this.state.animating && 
                 <View style={styles.loading}>
@@ -83,6 +97,10 @@ export default class Images extends Component {
         );
     };
     
+    viewImgDetail = (img) => {
+        this.props.navigation.navigate('ImageDetails', { ...img });
+    };
+
     classify = (pic) => {
         this.setState({animating: !this.state.animating});
         
@@ -116,18 +134,18 @@ export default class Images extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 35,
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
+        flex: 1,        
     },
+    scrollContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      },
     header: {        
         paddingBottom: 10,
     },
     img: {
         width: Dimensions.get('window').width,
-        height: 300
+        height: 300       
     },
     loading: {
         position: 'absolute',
@@ -138,5 +156,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F5FCFF88'
+    },
+    imageView: {
+        flex: 1, 
+        justifyContent: 'space-around', 
+        flexDirection: 'row',
+        paddingBottom: 10,
+        paddingTop: 10,
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        borderTopColor: 'gray',
+        borderTopWidth: 1,
+    },
+    imgBorder: {
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        borderTopColor: 'gray',
+        borderTopWidth: 1,
     }
 });
