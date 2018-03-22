@@ -77,6 +77,7 @@ export default class Watson extends Component {
                 </View>                
 
                 <PredictionModal
+                    cameraRollView={true}
                     modalVisible={this.state.modalVisible}
                     modalCtrl={this.setModalVisible.bind(this)}
                     currentPic={this.state.currentPic} 

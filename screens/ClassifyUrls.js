@@ -59,6 +59,7 @@ export default class ClassifyUrls extends Component {
                 </View>
 
                 <PredictionModal
+                    cameraRollView={false}
                     modalVisible={this.state.modalVisible}
                     modalCtrl={this.setModalVisible.bind(this)}
                     currentPic={this.state.currentPic} 
