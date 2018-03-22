@@ -55,9 +55,6 @@ export default class ImagePrediction extends Component {
 const styles = StyleSheet.create({
     prediction: {
         position: 'relative',        
-        // borderBottomWidth: 2,
-        // borderBottomColor: '#ededed',
-        // borderBottomColor: '#CB7C43',
         flex: 1,
     },
     linkContainer: {
