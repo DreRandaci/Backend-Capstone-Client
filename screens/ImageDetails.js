@@ -5,31 +5,46 @@ import {
     Text,
     StyleSheet,
     Dimensions } from 'react-native';
-import MapView  from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
      
+const { width, height } = Dimensions.get('window');
 
 export default class ImageDetails extends Component {
-
     render() {
+        const latLng = {
+            latitude: this.props.navigation.state.params.location.latitude,
+            longitude: this.props.navigation.state.params.location.longitude
+        };
         return(
-            <View>
+            <View style={styles.container}>
                 <MapView
                     style={styles.map}
+                    zoomEnabled={true}
                     initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                />
+                        latitude: this.props.navigation.state.params.location.latitude,
+                        longitude: this.props.navigation.state.params.location.longitude,
+                        latitudeDelta: 0.8922,
+                        longitudeDelta: 0.8922 * width / height,
+                        }}
+                    pitchEnabled={false}
+                    rotateEnabled={false}
+                >
+                    <Marker coordinate={latLng} />
+                </MapView>
             </View>
         );
     };
 };    
 
 const styles = StyleSheet.create({
+    container: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },      
     map: {
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
+        width: width,
+        height: height,
+        ...StyleSheet.absoluteFillObject,
     },
 });

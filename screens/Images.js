@@ -53,13 +53,11 @@ export default class Images extends Component {
                     {this.state.photos.map((pic, key) => {
                         return (
                             <View>
-                                <View style={styles.imgBorder}> 
-                                    <Image
-                                        key={key}
-                                        style={styles.img}
-                                        source={{ uri: pic.node.image.uri }}
-                                    />
-                                </View>
+                                <Image
+                                    key={key}
+                                    style={styles.img}
+                                    source={{ uri: pic.node.image.uri }}
+                                />
                                 <View style={styles.imageView}>
                                     <TouchableOpacity 
                                         onPress={() => this.classify(pic.node.image)} 
@@ -69,7 +67,7 @@ export default class Images extends Component {
                                     </TouchableOpacity>
                                     
                                     <TouchableOpacity
-                                        onPress={() => this.viewImgDetail(pic.node.image)}
+                                        onPress={() => this.viewImgDetail(pic.node)}
                                     >                                        
                                         <Icon name='explore' size={30} color='gray'/>
                                     </TouchableOpacity>  
@@ -100,7 +98,7 @@ export default class Images extends Component {
     };
     
     viewImgDetail = (img) => {
-    	this.props.navigation.navigate('ImageDetails', img);
+        this.props.navigation.navigate('ImageDetails', { ...img });
     };
 
     classify = (pic) => {
@@ -136,11 +134,7 @@ export default class Images extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 35,
-        flex: 1,
-        // flexDirection: 'column',
-        // justifyContent: 'center',
-        // alignItems: 'center'        
+        flex: 1,        
     },
     scrollContainer: {
         flexDirection: 'row',
@@ -169,6 +163,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingBottom: 10,
         paddingTop: 10,
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        borderTopColor: 'gray',
+        borderTopWidth: 1,
     },
     imgBorder: {
         borderBottomColor: 'gray',
