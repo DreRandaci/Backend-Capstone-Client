@@ -2,12 +2,14 @@
 import React, { Component } from 'react';
 import { 
     ActivityIndicator,
+    Clipboard,
     Text,
     View,
     StyleSheet,
     TextInput,
     Keyboard,
-    TouchableWithoutFeedback } from 'react-native';
+    TouchableWithoutFeedback,
+    TouchableOpacity } from 'react-native';
 import { FormLabel, FormInput, Button, CheckBox } from 'react-native-elements'
 import ClassifyUrl from '../actions/ClassifyGenericUrl';
 import DetectFacesUrl from '../actions/DetectFacesUrl';
@@ -25,24 +27,30 @@ export default class ClassifyUrls extends Component {
             currentPic: '',
             detectFaces: false,
             url: '',
-            animating: false
+            animating: false,
+            clipboardContent: null
         };
     };
 
     render() {
         return(
             <TouchableWithoutFeedback 
-                accessible={false}
                 onPress={Keyboard.dismiss}>
                 <View style={styles.container}>                
-                    <FormLabel labelStyle={{fontSize:16}}>Paste a URL Here</FormLabel>
+                    <TouchableOpacity 
+                        onPress={this.readFromClipboard}
+                        >
+                        <Text>Paste from Clipboard</Text>
+                        </TouchableOpacity>
 
-                    <TextInput                    
+                    <TextInput
+                        editable={true} 
+                        selectTextOnFocus={true}                    
                         autoFocus={true}
                         keyboardType={'url'}
                         style={{textAlign: 'center', paddingTop: 10}}
                         placeholder={'contains a .jpg, .jpeg or .png extension'}  
-                        value={this.state.url}                   
+                        value={this.state.clipboardContent}                   
                         onChangeText={(url) => this.setState({url})} 
                     />
 
@@ -89,6 +97,11 @@ export default class ClassifyUrls extends Component {
             </TouchableWithoutFeedback>
         );
     }
+
+    readFromClipboard = async () => {
+        const clipboardContent = await Clipboard.getString();   
+        this.setState({ clipboardContent: clipboardContent, url: clipboardContent }); 
+    };
 
     toggleDetectFaces() {
         this.setState({detectFaces: !this.state.detectFaces})
