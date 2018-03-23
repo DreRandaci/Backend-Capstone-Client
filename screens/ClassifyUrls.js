@@ -39,7 +39,6 @@ export default class ClassifyUrls extends Component {
                 <View style={styles.container}>                
                     <TouchableOpacity 
                         onPress={this.readFromClipboard}
-                        // labelStyle={{fontSize:16, color:'blue'}}
                         >
                         <Text>Paste from Clipboard</Text>
                         </TouchableOpacity>
@@ -100,9 +99,8 @@ export default class ClassifyUrls extends Component {
     }
 
     readFromClipboard = async () => {
-        console.log('object')
         const clipboardContent = await Clipboard.getString();   
-        this.setState({ clipboardContent }); 
+        this.setState({ clipboardContent: clipboardContent, url: clipboardContent }); 
     };
 
     toggleDetectFaces() {

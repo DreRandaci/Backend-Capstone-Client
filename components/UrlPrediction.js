@@ -6,7 +6,7 @@ import {
     Text,    
     Linking } from 'react-native'; 
 import { material } from 'react-native-typography';
-import { List, ListItem, } from 'react-native-elements';
+import { List, ListItem, Icon } from 'react-native-elements';
 
 export default class UrlPrediction extends Component {
 
@@ -45,14 +45,18 @@ export default class UrlPrediction extends Component {
                 </List>
                 {this.props.val.identity != null &&
                 <View style={styles.linkContainer}>
-                    <Text 
-                        style={styles.link}
-                        onPress={() => Linking.openURL(`https://www.google.com/search?q=${this.props.val.identity}`)}>Search Google
-                    </Text>
-                    <Text 
-                        style={styles.link}
-                        onPress={() => Linking.openURL(`https://en.m.wikipedia.org/w/index.php?search=${this.props.val.identity}&title=Special:Search&fulltext=1`)}>Search Wikipedia
-                    </Text>
+                    <Icon
+                        iconStyle={styles.googleLink}
+                        type='font-awesome'
+                        name='google'
+                        onPress={() => Linking.openURL(`https://www.google.com/search?q=${this.props.val.identity}`)}
+                    />
+                    <Icon
+                        iconStyle={styles.wikiLink}
+                        type='font-awesome'
+                        name='wikipedia-w'
+                        onPress={() => Linking.openURL(`https://en.m.wikipedia.org/w/index.php?search=${this.props.val.identity}&title=Special:Search&fulltext=1`)}
+                    />
                 </View>}
 
             </View>
@@ -71,10 +75,16 @@ const styles = StyleSheet.create({
     linkContainer: {
         flexDirection: 'row',
         flex: 1,
-        justifyContent: 'space-between'
+        justifyContent: 'flex-start',
+        paddingTop: 25,
+        paddingBottom: 5,
     },
-    link: {
-        paddingTop: 15,
-        color: 'blue',        
+    wikiLink: {
+        color: 'black', 
+        paddingLeft: 15,               
+    },
+    googleLink: {
+        color: '#d62d20',
+        paddingLeft: 22,       
     }
 });
