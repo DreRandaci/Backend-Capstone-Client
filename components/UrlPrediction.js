@@ -42,16 +42,6 @@ export default class UrlPrediction extends Component {
                         hideChevron={true}   
                         title={`Confidence: ${Math.round(this.props.val.gender.score*100)}%`} 
                     />
-                    {/* <Text 
-                        style={material.subheading}>Age - min: {this.props.val.age.min}, max: {this.props.val.age.max}, confidence: {Math.round(this.props.val.age.score*100)}%
-                    </Text> */}
-                    {/* <Text 
-                        style={material.subheading}>Gender - {this.props.val.gender.gender}, confidence: {Math.round(this.props.val.gender.score*100)}%
-                    </Text> */}
-                    {/* {this.props.val.identity != null &&
-                        <Text 
-                            style={material.caption}>Type Hierarchy: {this.props.val.identity.type_hierarchy != null ? this.props.val.identity.type_hierarchy : 'default'}
-                        </Text>} */}
                 </List>
                 {this.props.val.identity != null &&
                 <View style={styles.linkContainer}>
@@ -64,7 +54,6 @@ export default class UrlPrediction extends Component {
                         onPress={() => Linking.openURL(`https://en.m.wikipedia.org/w/index.php?search=${this.props.val.identity}&title=Special:Search&fulltext=1`)}>Search Wikipedia
                     </Text>
                 </View>}
-
 
             </View>
         );
