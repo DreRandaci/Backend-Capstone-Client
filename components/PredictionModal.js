@@ -21,7 +21,7 @@ export default class PredictionModal extends Component {
     render() { 
         
         const predictions = [].concat(this.props.predictions)
-            .sort((a, b) => b.age ? b.identity.score > a.identity.score : b.score > a.score
+            .sort((a, b) => a.score ? b.score > a.score : b.age.score > a.age.score
                 ).map((val, key) => 
                     val.age ? <UrlPrediction
                                 key={key} 
