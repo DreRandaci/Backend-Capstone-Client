@@ -41,5 +41,7 @@
 
 ![URL's](https://user-images.githubusercontent.com/30006986/37933295-634cf7e6-3110-11e8-9fa4-ad1ac08b2c5d.png)
 
+![URL Prediction](https://user-images.githubusercontent.com/30006986/37933533-22459824-3111-11e8-99d0-55279d8c0f2a.png)
+
 ![URL Prediction](https://user-images.githubusercontent.com/30006986/37933376-99979720-3110-11e8-89a0-73227edb2ce1.png)
 
