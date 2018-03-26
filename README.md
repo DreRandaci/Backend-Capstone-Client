@@ -29,17 +29,19 @@
 - Transpiled from React-Native to Swift utilizing Xcode
 
 ## Screen Shots
-![](https://user-images.githubusercontent.com/30006986/37930525-a3a746b4-3108-11e8-9588-dcc6aaad899a.png)
+![Opening](https://user-images.githubusercontent.com/30006986/37933087-d4ec7c74-310f-11e8-9abe-d1ae78dd629f.png)
 
-![](https://user-images.githubusercontent.com/30006986/37930754-4b4e3c2e-3109-11e8-8915-0c23cea105cd.png)
+![Images](https://user-images.githubusercontent.com/30006986/37933125-ee6fd3ee-310f-11e8-9e53-3340cb20dc2f.png)
 
-![](https://user-images.githubusercontent.com/30006986/37930823-7cb12588-3109-11e8-8edd-b180505069b4.png)
+![Classify](https://user-images.githubusercontent.com/30006986/37933153-043d3220-3110-11e8-889c-e7e94746b6b1.png)
 
-![](https://user-images.githubusercontent.com/30006986/37930842-8af26a62-3109-11e8-9e2e-773c9a451a91.png)
+![Prediction Modal](https://user-images.githubusercontent.com/30006986/37933193-1a52d4b6-3110-11e8-9650-5018642bb1c8.png)
 
-![](https://user-images.githubusercontent.com/30006986/37930861-98c01766-3109-11e8-8d8c-20b99b815821.png)
+![Map](https://user-images.githubusercontent.com/30006986/37933233-38350dc8-3110-11e8-9ac2-e7b689e0671f.png)
 
-![](https://user-images.githubusercontent.com/30006986/37930904-b8825a50-3109-11e8-9d28-f89cbc0503c2.png)
+![URL's](https://user-images.githubusercontent.com/30006986/37933295-634cf7e6-3110-11e8-9fa4-ad1ac08b2c5d.png)
 
-![](https://user-images.githubusercontent.com/30006986/37930949-ce3370f0-3109-11e8-81d0-bb88208405af.png)
+![URL Prediction](https://user-images.githubusercontent.com/30006986/37933533-22459824-3111-11e8-99d0-55279d8c0f2a.png)
+
+![URL Prediction](https://user-images.githubusercontent.com/30006986/37933376-99979720-3110-11e8-89a0-73227edb2ce1.png)
 
