@@ -15,6 +15,7 @@ import UserImage from '../components/UserImage';
 import Watson from '../screens/Watson';
 import ImagePrediction from '../components/ImagePrediction';
 import UrlPrediction from '../components/UrlPrediction';
+import styles from '../styles/predictionModal';
 
 export default class PredictionModal extends Component {        
 
@@ -82,18 +83,3 @@ export default class PredictionModal extends Component {
         this.props.modalCtrl();
     };
 };
-
-const styles = StyleSheet.create({
-    scrollViewContainer: {
-        marginTop: 25,
-        marginBottom: 25
-    },
-    btnContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        paddingBottom: 12,
-    },
-    button: {
-        fontSize: 16
-    },
-});

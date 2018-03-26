@@ -7,6 +7,7 @@ import {
     Linking } from 'react-native'; 
 import { material } from 'react-native-typography';
 import { List, ListItem, Icon } from 'react-native-elements';
+import styles from '../styles/urlPrediction';
 
 export default class UrlPrediction extends Component {
 
@@ -60,28 +61,3 @@ export default class UrlPrediction extends Component {
         );
     }
 };
-
-const styles = StyleSheet.create({
-    prediction: {
-        position: 'relative',
-        padding: 10,
-        borderBottomWidth: 2,
-        borderBottomColor: '#ededed',
-        flex: 1,
-    },
-    linkContainer: {
-        flexDirection: 'row',
-        flex: 1,
-        justifyContent: 'flex-start',
-        paddingTop: 25,
-        paddingBottom: 5,
-    },
-    wikiLink: {
-        color: 'black', 
-        paddingLeft: 15,               
-    },
-    googleLink: {
-        color: '#d62d20',
-        paddingLeft: 22,       
-    }
-});
