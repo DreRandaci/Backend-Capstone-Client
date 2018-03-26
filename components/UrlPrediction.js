@@ -38,10 +38,7 @@ export default class UrlPrediction extends Component {
                         hideChevron={true}   
                         title={`Gender: ${this.props.val.gender.gender}`} 
                     />
-                    <ListItem 
-                        hideChevron={true}   
-                        title={`Confidence: ${Math.round(this.props.val.gender.score*100)}%`} 
-                    />
+                    
                 </List>
                 {this.props.val.identity != null &&
                 <View style={styles.linkContainer}>
@@ -49,13 +46,13 @@ export default class UrlPrediction extends Component {
                         iconStyle={styles.googleLink}
                         type='font-awesome'
                         name='google'
-                        onPress={() => Linking.openURL(`https://www.google.com/search?q=${this.props.val.identity}`)}
+                        onPress={() => Linking.openURL(`https://www.google.com/search?q=${this.props.val.identity.name}`)}
                     />
                     <Icon
                         iconStyle={styles.wikiLink}
                         type='font-awesome'
                         name='wikipedia-w'
-                        onPress={() => Linking.openURL(`https://en.m.wikipedia.org/w/index.php?search=${this.props.val.identity}&title=Special:Search&fulltext=1`)}
+                        onPress={() => Linking.openURL(`https://en.m.wikipedia.org/w/index.php?search=${this.props.val.identity.name}&title=Special:Search&fulltext=1`)}
                     />
                 </View>}
 

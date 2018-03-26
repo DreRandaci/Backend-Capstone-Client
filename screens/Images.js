@@ -187,14 +187,8 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         paddingTop: 5,
         borderBottomColor: 'gray',
-        borderBottomWidth: 0.5,
+        borderBottomWidth: 0.3,
         borderTopColor: 'gray',
-        borderTopWidth: 0.5,
+        borderTopWidth: 0.3,
     },
-    imgBorder: {
-        borderBottomColor: 'gray',
-        borderBottomWidth: 1,
-        borderTopColor: 'gray',
-        borderTopWidth: 1,
-    }
 });
