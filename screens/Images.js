@@ -6,7 +6,6 @@ import {
     Dimensions,
     CameraRoll,
     View, 
-    StyleSheet,
     ScrollView,
     Text,
     Image,
@@ -16,8 +15,7 @@ import UserImage from '../components/UserImage';
 import ClassifyGeneric from '../actions/ClassifyGeneric';
 import PredictionModal from '../components/PredictionModal';
 import ImagePrediction from '../components/ImagePrediction';
-
-const { width, height } = Dimensions.get('window');
+import styles from '../styles/images';
 
 export default class Images extends Component {
 
@@ -154,41 +152,3 @@ export default class Images extends Component {
     };
 
 };
-    
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,        
-    },
-    scrollContainer: {
-        flexDirection: 'column',        
-    },
-    header: {        
-        paddingBottom: 10,
-    },
-    img: {
-        width: Dimensions.get('window').width - 2,
-        height: 300,
-    },
-    loading: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F5FCFF88'
-    },
-    imageActions: {
-        flex: 1, 
-        justifyContent: 'space-around', 
-        flexDirection: 'row',
-        paddingBottom: 5,
-        paddingTop: 5,
-        borderBottomColor: 'gray',
-        borderBottomWidth: 0.3,
-        borderTopColor: 'gray',
-        borderTopWidth: 0.3,
-    },
-});
