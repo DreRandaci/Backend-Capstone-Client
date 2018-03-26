@@ -5,7 +5,6 @@ import {
     Clipboard,
     Text,
     View,
-    StyleSheet,
     TextInput,
     Keyboard,
     TouchableWithoutFeedback,
@@ -16,6 +15,7 @@ import DetectFacesUrl from '../actions/DetectFacesUrl';
 import PredictionModal from '../components/PredictionModal';
 import ImagePrediction from '../components/ImagePrediction';
 import UserImage from '../components/UserImage';
+import styles from '../styles/classifyUrls';
 
 export default class ClassifyUrls extends Component {
 
@@ -137,27 +137,4 @@ export default class ClassifyUrls extends Component {
             this.setState({animating: false});
         }
     };
-
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',        
-        justifyContent: 'center',
-    },
-    buttonContainer: {
-        padding: 20,
-    },
-    loading: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#F5FCFF88'
-    }
-});
