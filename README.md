@@ -28,6 +28,16 @@
     - React-Native Typography     
 - Transpiled from React-Native to Swift utilizing Xcode
 
+### Running the app on your device
+- Make sure you have Xcode installed
+- Clone the repo
+- `npm install` in the root of the directory
+- `pod install` in the `ios` folder
+- Start Xcode and `File > Open...`
+    - Navigate to the repo and inside the `ios` folder and select the `Watson.xcworkspace` directory
+- Select a device to build in the simulator or connect your iPhone to your computer via USB and select that device (follow Xcode's instructions if running from your iPhone)
+- Build the project
+
 ## Screen Shots
 ![Opening](https://user-images.githubusercontent.com/30006986/37933087-d4ec7c74-310f-11e8-9abe-d1ae78dd629f.png)
 
