@@ -16,7 +16,7 @@ export default class ImagePrediction extends Component {
         return (
 
             <View key={this.props.keyVal} style={styles.prediction}>
-            
+
                 <List>
                     <ListItem 
                         hideChevron={true}   
